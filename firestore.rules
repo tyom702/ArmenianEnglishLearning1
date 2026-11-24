@@ -1,0 +1,204 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net (Default Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // =========================================================================
+    // GLOBAL HELPER FUNCTIONS
+    // =========================================================================
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isSuperAdmin() {
+      return isVerifiedUser() &&
+        request.auth.token.email == 'kurghinyanartyom2@gmail.com';
+    }
+
+    // =========================================================================
+    // VALIDATION BLUEPRINTS
+    // =========================================================================
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['id', 'name', 'email', 'registeredAt']) &&
+        data.keys().hasOnly([
+          'id', 'name', 'email', 'avatar', 'englishLevel',
+          'dailyGoalMinutes', 'registeredAt', 'role', 'updatedAt'
+        ]) &&
+        data.id is string && data.id == userId && isValidId(data.id) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+        data.email is string && data.email.size() > 0 && data.email.size() <= 120 &&
+        data.registeredAt is string && data.registeredAt.size() > 0 && data.registeredAt.size() <= 64 &&
+        (!('avatar' in data) || (data.avatar is string && data.avatar.size() <= 300)) &&
+        (!('englishLevel' in data) || (data.englishLevel in ['beginner', 'elementary', 'intermediate'])) &&
+        (!('dailyGoalMinutes' in data) || (data.dailyGoalMinutes is number && data.dailyGoalMinutes >= 1 && data.dailyGoalMinutes <= 480)) &&
+        (!('role' in data) || (data.role in ['student', 'super_admin'])) &&
+        (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
+    }
+
+    function isValidUserProgress(data) {
+      return data.keys().hasAll(['streakCount', 'userXP']) &&
+        data.keys().hasOnly([
+          'streakCount', 'userXP', 'completedLessonIds', 'masteredWordIds',
+          'quizStats', 'dailyMissions', 'dailyMissionsDate', 'reviewPool',
+          'weeklyActivity', 'updatedAt'
+        ]) &&
+        data.streakCount is number && data.streakCount >= 0 && data.streakCount <= 10000 &&
+        data.userXP is number && data.userXP >= 0 && data.userXP <= 10000000 &&
+        (!('completedLessonIds' in data) || (data.completedLessonIds is list && data.completedLessonIds.size() <= 500 && (data.completedLessonIds.size() == 0 || data.completedLessonIds[0] is string))) &&
+        (!('masteredWordIds' in data) || (data.masteredWordIds is list && data.masteredWordIds.size() <= 2000 && (data.masteredWordIds.size() == 0 || data.masteredWordIds[0] is string))) &&
+        (!('quizStats' in data) || data.quizStats == null || data.quizStats is map) &&
+        (!('dailyMissions' in data) || data.dailyMissions == null || (data.dailyMissions is list && data.dailyMissions.size() <= 20)) &&
+        (!('dailyMissionsDate' in data) || data.dailyMissionsDate == null || (data.dailyMissionsDate is string && data.dailyMissionsDate.size() <= 32)) &&
+        (!('reviewPool' in data) || (data.reviewPool is list && data.reviewPool.size() <= 500)) &&
+        (!('weeklyActivity' in data) || data.weeklyActivity == null || (data.weeklyActivity is list && data.weeklyActivity.size() <= 14)) &&
+        (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
+    }
+
+    function isValidAdRequest(data, adId) {
+      return data.keys().hasAll([
+          'id', 'businessName', 'contactEmail', 'headline', 'adText',
+          'placement', 'duration', 'status', 'submittedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'id', 'businessName', 'contactEmail', 'contactPhone', 'headline',
+          'adText', 'callToAction', 'targetUrl', 'imageUrl', 'placement',
+          'duration', 'status', 'price', 'currency', 'adminNotes',
+          'submittedAt', 'reviewedAt', 'paidAt', 'expiresAt', 'submitterUserId'
+        ]) &&
+        data.id is string && data.id == adId && isValidId(data.id) &&
+        data.businessName is string && data.businessName.size() > 0 && data.businessName.size() <= 120 &&
+        data.contactEmail is string && data.contactEmail.size() > 0 && data.contactEmail.size() <= 120 &&
+        (!('contactPhone' in data) || (data.contactPhone is string && data.contactPhone.size() <= 40)) &&
+        data.headline is string && data.headline.size() > 0 && data.headline.size() <= 140 &&
+        data.adText is string && data.adText.size() > 0 && data.adText.size() <= 500 &&
+        (!('callToAction' in data) || (data.callToAction is string && data.callToAction.size() <= 50)) &&
+        (!('targetUrl' in data) || (data.targetUrl is string && data.targetUrl.size() <= 500)) &&
+        (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() <= 500)) &&
+        data.placement in ['hero_top', 'sidebar_dashboard', 'lesson_footer', 'quiz_finish'] &&
+        data.duration in ['7_days', '14_days', '30_days', '90_days'] &&
+        data.status in ['pending_review', 'approved', 'active', 'rejected'] &&
+        (!('price' in data) || data.price == null || (data.price is number && data.price >= 0)) &&
+        (!('currency' in data) || (data.currency is string && data.currency.size() <= 10)) &&
+        (!('adminNotes' in data) || (data.adminNotes is string && data.adminNotes.size() <= 500)) &&
+        data.submittedAt is string && data.submittedAt.size() > 0 && data.submittedAt.size() <= 64 &&
+        (!('reviewedAt' in data) || (data.reviewedAt is string && data.reviewedAt.size() <= 64)) &&
+        (!('paidAt' in data) || (data.paidAt is string && data.paidAt.size() <= 64)) &&
+        (!('expiresAt' in data) || (data.expiresAt is string && data.expiresAt.size() <= 64)) &&
+        (!('submitterUserId' in data) || (data.submitterUserId is string && data.submitterUserId.size() <= 128));
+    }
+
+    // =========================================================================
+    // CONNECTION HEALTH CHECK (Read-Only Single Doc)
+    // =========================================================================
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // =========================================================================
+    // USER PROFILES & PROGRESS
+    // =========================================================================
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isSuperAdmin());
+      allow list: if isSuperAdmin();
+
+      allow create: if isValidId(userId) &&
+        isOwner(userId) &&
+        isValidUserProfile(incoming(), userId) &&
+        (!('role' in incoming()) ||
+         incoming().role == 'student' ||
+         (incoming().role == 'super_admin' && isSuperAdmin() && incoming().email == 'kurghinyanartyom2@gmail.com'));
+
+      allow update: if isValidId(userId) &&
+        isValidUserProfile(incoming(), userId) &&
+        (
+          isSuperAdmin() ||
+          (isOwner(userId) &&
+           incoming().id == existing().id &&
+           incoming().email == existing().email &&
+           !incoming().diff(existing()).affectedKeys().hasAny(['id', 'email', 'role']) &&
+           incoming().diff(existing()).affectedKeys().hasOnly([
+             'name', 'avatar', 'englishLevel', 'dailyGoalMinutes', 'updatedAt'
+           ]))
+        );
+
+      allow delete: if isValidId(userId) && isSuperAdmin();
+
+      // Progress subcollection
+      match /progress/{progressDoc} {
+        allow get: if isValidId(userId) && isValidId(progressDoc) && (isOwner(userId) || isSuperAdmin());
+        allow list: if isValidId(userId) && (isOwner(userId) || isSuperAdmin());
+        allow create: if isValidId(userId) && isValidId(progressDoc) &&
+          (isOwner(userId) || isSuperAdmin()) &&
+          isValidUserProgress(incoming());
+        allow update: if isValidId(userId) && isValidId(progressDoc) &&
+          isValidUserProgress(incoming()) &&
+          (isOwner(userId) || isSuperAdmin()) &&
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'streakCount', 'userXP', 'completedLessonIds', 'masteredWordIds',
+            'quizStats', 'dailyMissions', 'dailyMissionsDate', 'reviewPool',
+            'weeklyActivity', 'updatedAt'
+          ]);
+        allow delete: if isValidId(userId) && isValidId(progressDoc) && isSuperAdmin();
+      }
+    }
+
+    // =========================================================================
+    // SPONSOR AD REQUESTS
+    // =========================================================================
+    match /adRequests/{adId} {
+      allow get: if isValidId(adId) && (
+        existing().status == 'active' ||
+        isSuperAdmin() ||
+        (isSignedIn() && existing().submitterUserId == request.auth.uid)
+      );
+
+      allow list: if isSuperAdmin() ||
+        (existing().status == 'active') ||
+        (isSignedIn() && existing().submitterUserId == request.auth.uid);
+
+      allow create: if isValidId(adId) &&
+        isSignedIn() &&
+        isValidAdRequest(incoming(), adId) &&
+        incoming().status == 'pending_review' &&
+        !('reviewedAt' in incoming()) &&
+        !('paidAt' in incoming()) &&
+        !('expiresAt' in incoming()) &&
+        !('adminNotes' in incoming()) &&
+        (!('submitterUserId' in incoming()) || incoming().submitterUserId == request.auth.uid);
+
+      allow update: if isValidId(adId) &&
+        isSuperAdmin() &&
+        isValidAdRequest(incoming(), adId) &&
+        incoming().id == existing().id &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'status', 'price', 'currency', 'adminNotes', 'reviewedAt', 'paidAt', 'expiresAt'
+        ]);
+
+      allow delete: if isValidId(adId) && isSuperAdmin();
+    }
+  }
+}
