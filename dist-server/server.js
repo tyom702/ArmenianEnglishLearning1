@@ -1,6 +1,7 @@
 // server.ts
 import express2 from "express";
 import { createServer as createViteServer } from "vite";
+import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 
@@ -206,6 +207,7 @@ function createApiApp() {
   const app = express();
   const configuredOrigins = (process.env.ALLOWED_ORIGINS || "").split(",").map((o) => o.trim()).filter(Boolean);
   app.use("/api", (req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
     const origin = req.headers.origin;
     if (origin && configuredOrigins.includes(origin)) {
       res.setHeader("Access-Control-Allow-Origin", origin);
@@ -469,11 +471,73 @@ function createApiApp() {
   return app;
 }
 
+// src/server/seoRoutes.ts
+function buildRobotsTxt(origin) {
+  const cleanOrigin = origin.replace(/\/+$/, "");
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "Disallow: /api/",
+    "Disallow: /admin",
+    "Disallow: /dashboard",
+    "Disallow: /profile",
+    "Disallow: /review",
+    "Disallow: /leaderboard",
+    "",
+    `Sitemap: ${cleanOrigin}/sitemap.xml`,
+    ""
+  ].join("\n");
+}
+function buildSitemapXml(origin) {
+  const cleanOrigin = origin.replace(/\/+$/, "");
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    "  <url>",
+    `    <loc>${cleanOrigin}/</loc>`,
+    "    <lastmod>2026-11-27</lastmod>",
+    "    <changefreq>weekly</changefreq>",
+    "    <priority>1.0</priority>",
+    "  </url>",
+    "</urlset>",
+    ""
+  ].join("\n");
+}
+
 // server.ts
 dotenv.config();
+function resolvePublicOrigin(req) {
+  const configured = process.env.APP_URL?.trim();
+  if (configured && /^https?:\/\//i.test(configured)) {
+    return configured.replace(/\/+$/, "");
+  }
+  const forwardedProto = req.headers["x-forwarded-proto"]?.split(",")[0]?.trim();
+  const proto = forwardedProto || req.protocol || "https";
+  const host = req.get("host") || "armenianenglishlearning1.onrender.com";
+  return `${proto}://${host}`;
+}
 async function startServer() {
   const app = createApiApp();
   const PORT = process.env.PORT || 3e3;
+  app.get("/robots.txt", (req, res) => {
+    res.type("text/plain; charset=utf-8").send(buildRobotsTxt(resolvePublicOrigin(req)));
+  });
+  app.get("/sitemap.xml", (req, res) => {
+    res.type("application/xml; charset=utf-8").send(buildSitemapXml(resolvePublicOrigin(req)));
+  });
+  const gscVerification = (process.env.GOOGLE_SITE_VERIFICATION || process.env.VITE_GOOGLE_SITE_VERIFICATION || "").trim();
+  if (/^[a-zA-Z0-9_-]{8,128}$/.test(gscVerification)) {
+    const fileToken = gscVerification.startsWith("google") ? gscVerification : `google${gscVerification}`;
+    app.get(`/${fileToken}.html`, (_req, res) => {
+      res.type("text/html; charset=utf-8").send(`google-site-verification: ${fileToken}.html`);
+    });
+  }
+  app.use((req, res, next) => {
+    if (/^\/(admin|dashboard|profile|review|leaderboard)(\/|$)/i.test(req.path)) {
+      res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
+    }
+    next();
+  });
   const isDev = process.env.NODE_ENV !== "production";
   if (isDev) {
     const httpServer = app.listen(Number(PORT), "0.0.0.0", () => {
@@ -491,9 +555,34 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.resolve(process.cwd(), "dist");
-    app.use(express2.static(distPath));
-    app.get("*", (_req, res) => {
-      res.sendFile(path.resolve(distPath, "index.html"));
+    const distIndexHtmlPath = path.resolve(distPath, "index.html");
+    const rawHtml = fs.existsSync(distIndexHtmlPath) ? fs.readFileSync(distIndexHtmlPath, "utf-8") : "";
+    app.use(express2.static(distPath, { index: false }));
+    app.get("*", (req, res) => {
+      if (!rawHtml) {
+        res.sendFile(distIndexHtmlPath);
+        return;
+      }
+      const origin = resolvePublicOrigin(req);
+      let html = rawHtml.replace(/https:\/\/armenianenglishlearning1\.onrender\.com/g, origin);
+      if (/^\/(admin|dashboard|profile|review|leaderboard)(\/|$)/i.test(req.path)) {
+        html = html.replace(
+          'content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"',
+          'content="noindex, nofollow, noarchive"'
+        );
+        html = html.replace(
+          '<meta name="googlebot" content="index, follow" />',
+          '<meta name="googlebot" content="noindex, nofollow" />'
+        );
+      }
+      if (/^[a-zA-Z0-9_-]{8,128}$/.test(gscVerification) && !html.includes('name="google-site-verification"')) {
+        html = html.replace(
+          "</head>",
+          `    <meta name="google-site-verification" content="${gscVerification}" />
+  </head>`
+        );
+      }
+      res.type("text/html; charset=utf-8").send(html);
     });
     app.listen(Number(PORT), "0.0.0.0", () => {
       console.log(`[HayEnglish Server] Listening on http://0.0.0.0:${PORT}`);
