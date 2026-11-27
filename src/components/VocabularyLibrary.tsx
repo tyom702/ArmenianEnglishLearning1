@@ -128,11 +128,11 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
                   : 'Armenian-English Vocabulary Library'}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900">
               {appLang === 'hy'
                 ? 'Անգլերեն բառապաշարի գանձարան'
                 : 'English Vocabulary Treasury'}
-            </h2>
+            </h1>
             <p className="text-sm text-slate-600 max-w-2xl leading-relaxed">
               {appLang === 'hy'
                 ? 'Յուրացրեք հիմնական բառերը հայերեն տառադարձությամբ, ճիշտ արտասանության աուդիոյով, օրինակ նախադասություններով և հայախոսների համար հատուկ խորհուրդներով:'

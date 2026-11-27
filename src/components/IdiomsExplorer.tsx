@@ -22,11 +22,11 @@ export const IdiomsExplorer: React.FC<IdiomsExplorerProps> = ({
           <Sparkles className="w-5 h-5" />
         </div>
         <div className="min-w-0">
-          <h2 className="text-base sm:text-lg font-extrabold text-slate-900">
+          <h1 className="text-base sm:text-lg font-extrabold text-slate-900">
             {appLang === 'hy'
               ? 'Անգլերեն իդիոմներ և հայկական համարժեքներ'
               : 'English Idioms & Armenian Cultural Equivalents'}
-          </h2>
+          </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
             {appLang === 'hy'
               ? 'Իդիոմները երբեք չի կարելի բառացի թարգմանել: Տեսեք, թե ինչպես են անգլիական հայտնի դարձվածքները համապատասխանում հայկական իմաստուն ասացվածքներին:'

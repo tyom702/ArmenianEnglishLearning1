@@ -159,6 +159,7 @@ export function createApiApp() {
     .filter(Boolean);
 
   app.use('/api', (req: Request, res: Response, next: NextFunction) => {
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
     const origin = req.headers.origin;
     if (origin && configuredOrigins.includes(origin)) {
       res.setHeader('Access-Control-Allow-Origin', origin);

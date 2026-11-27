@@ -279,7 +279,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               </div>
 
               <div className="space-y-2">
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-white">
+                <h1 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-white">
                   {appLang === 'hy' ? (
                     <>
                       Բարի գալուստ <span className="text-amber-300">HayEnglish</span>
@@ -289,7 +289,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                       Welcome to <span className="text-amber-300">HayEnglish</span>
                     </>
                   )}
-                </h2>
+                </h1>
                 <p className="text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
                   {appLang === 'hy'
                     ? 'Ուսումնասիրեք անգլերենը հայերեն բացատրություններով, խոսակցական գործիքներով և անհատականացված վահանակով:'
@@ -401,7 +401,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
               {/* Title inside the active form */}
               <div className="mb-6 space-y-1">
-                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   {authMode === 'login'
                     ? appLang === 'hy'
                       ? 'Մուտք ձեր ուսումնական հաշիվ'
@@ -409,7 +409,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     : appLang === 'hy'
                     ? 'Ստեղծեք նոր ուսանողական հաշիվ'
                     : 'Create your new student account'}
-                </h3>
+                </h2>
                 <p className="text-xs sm:text-sm text-slate-600">
                   {authMode === 'login'
                     ? appLang === 'hy'

@@ -38,11 +38,11 @@ export const FalseFriendsExplorer: React.FC<FalseFriendsExplorerProps> = ({
             <ShieldAlert className="w-5 h-5" />
           </div>
           <div className="min-w-0 flex-1">
-            <h2 className="text-base sm:text-lg font-extrabold text-slate-900">
+            <h1 className="text-base sm:text-lg font-extrabold text-slate-900">
               {appLang === 'hy'
                 ? '«Կեղծ ընկերներ» և թակարդ բառեր'
                 : 'False Friends & Vocabulary Traps'}
-            </h2>
+            </h1>
             <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
               {appLang === 'hy'
                 ? 'Այս բառերը հնչում են ինչպես հայերենում կամ ռուսերենում ծանոթ բառեր, բայց անգլերենում ունեն բոլորովին ԱՅԼ իմաստ: Սովորեք դրանք՝ անհարմար իրավիճակներից խուսափելու համար:'

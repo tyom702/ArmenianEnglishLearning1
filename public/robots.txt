@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /review
+Disallow: /leaderboard
+
+Sitemap: https://armenianenglishlearning1.onrender.com/sitemap.xml

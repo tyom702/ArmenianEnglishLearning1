@@ -90,7 +90,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
             {ad.imageUrl ? (
               <img
                 src={ad.imageUrl}
-                alt={ad.businessName}
+                alt={`${ad.businessName} — ${ad.headline}`}
                 className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover border border-white/80 shadow-2xs shrink-0"
               />
             ) : (
@@ -151,7 +151,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
             {ad.imageUrl && (
               <img
                 src={ad.imageUrl}
-                alt={ad.businessName}
+                alt={`${ad.businessName} — ${ad.headline}`}
                 className="w-12 h-12 rounded-xl object-cover border border-white/30 shrink-0"
               />
             )}
@@ -191,7 +191,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
             {ad.imageUrl ? (
               <img
                 src={ad.imageUrl}
-                alt={ad.businessName}
+                alt={`${ad.businessName} — ${ad.headline}`}
                 className="w-14 h-14 rounded-2xl object-cover border border-slate-100 shadow-2xs shrink-0"
               />
             ) : (
@@ -244,7 +244,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
         {ad.imageUrl && (
           <img
             src={ad.imageUrl}
-            alt={ad.businessName}
+            alt={`${ad.businessName} — ${ad.headline}`}
             className="w-12 h-12 rounded-xl object-cover shrink-0 border border-slate-200"
           />
         )}

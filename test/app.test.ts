@@ -26,6 +26,10 @@ import {
   validateListeningAnswer,
 } from '../src/utils/listeningValidation';
 import { getApiUrl } from '../src/utils/apiBase';
+import { getSeoConfigForView } from '../src/utils/seo';
+import { buildRobotsTxt, buildSitemapXml } from '../src/server/seoRoutes';
+import fs from 'node:fs';
+import path from 'node:path';
 
 describe('HayEnglish Security & Authorization Tests', () => {
   it('enforces that only OFFICIAL_OWNER_EMAIL receives super_admin role', () => {
@@ -319,6 +323,16 @@ describe('HayEnglish Backend API & Vercel Handler Tests', () => {
       // 7. API base helper preserves relative paths cleanly
       assert.strictEqual(getApiUrl('/api/admin/check-access'), '/api/admin/check-access');
       assert.strictEqual(getApiUrl('api/admin/check-access'), '/api/admin/check-access');
+
+      // 8. API endpoints emit X-Robots-Tag noindex header
+      assert.strictEqual(
+        healthRes.headers.get('x-robots-tag'),
+        'noindex, nofollow, noarchive'
+      );
+      assert.strictEqual(
+        adminDeniedRes.headers.get('x-robots-tag'),
+        'noindex, nofollow, noarchive'
+      );
     } finally {
       await new Promise<void>((resolve, reject) =>
         server.close((err) => (err ? reject(err) : resolve()))
@@ -331,3 +345,66 @@ describe('HayEnglish Backend API & Vercel Handler Tests', () => {
     }
   });
 });
+
+describe('HayEnglish SEO, Sitemap, Robots & Private Page Protection Tests', () => {
+  it('generates indexable SEO metadata for public views and noindex for private pages', () => {
+    const publicLanding = getSeoConfigForView({
+      appLang: 'hy',
+      isAuthenticated: false,
+      activeTab: 'lessons',
+    });
+    assert.strictEqual(publicLanding.isPrivate, false);
+    assert.ok(publicLanding.robots.includes('index, follow'));
+    assert.ok(publicLanding.keywords.includes('անգլերենի ուսուցում'));
+    assert.ok(publicLanding.keywords.includes('learn English in Armenian'));
+
+    const dashboardMeta = getSeoConfigForView({
+      appLang: 'hy',
+      isAuthenticated: true,
+      activeTab: 'dashboard',
+    });
+    assert.strictEqual(dashboardMeta.isPrivate, true);
+    assert.strictEqual(dashboardMeta.robots, 'noindex, nofollow, noarchive');
+
+    const adminModalMeta = getSeoConfigForView({
+      appLang: 'hy',
+      isAuthenticated: true,
+      activeTab: 'lessons',
+      isPrivateModalOpen: true,
+    });
+    assert.strictEqual(adminModalMeta.isPrivate, true);
+    assert.strictEqual(adminModalMeta.robots, 'noindex, nofollow, noarchive');
+
+    const adminPathMeta = getSeoConfigForView({
+      appLang: 'en',
+      isAuthenticated: false,
+      activeTab: 'lessons',
+      pathname: '/admin',
+    });
+    assert.strictEqual(adminPathMeta.isPrivate, true);
+    assert.strictEqual(adminPathMeta.robots, 'noindex, nofollow, noarchive');
+  });
+
+  it('builds valid robots.txt and sitemap.xml excluding private user and admin paths', () => {
+    const robots = buildRobotsTxt('https://armenianenglishlearning1.onrender.com');
+    assert.ok(robots.includes('Allow: /'));
+    assert.ok(robots.includes('Disallow: /api/'));
+    assert.ok(robots.includes('Disallow: /admin'));
+    assert.ok(robots.includes('Disallow: /dashboard'));
+    assert.ok(robots.includes('Sitemap: https://armenianenglishlearning1.onrender.com/sitemap.xml'));
+
+    const sitemap = buildSitemapXml('https://armenianenglishlearning1.onrender.com');
+    assert.ok(sitemap.includes('<loc>https://armenianenglishlearning1.onrender.com/</loc>'));
+    assert.ok(!sitemap.includes('/admin'));
+    assert.ok(!sitemap.includes('/dashboard'));
+    assert.ok(!sitemap.includes('/api/'));
+
+    // Static files for static hosting must also exist and stay valid
+    const publicRobots = fs.readFileSync(path.resolve(process.cwd(), 'public/robots.txt'), 'utf-8');
+    const publicSitemap = fs.readFileSync(path.resolve(process.cwd(), 'public/sitemap.xml'), 'utf-8');
+    assert.ok(publicRobots.includes('Disallow: /admin'));
+    assert.ok(publicSitemap.includes('<urlset'));
+    assert.ok(fs.existsSync(path.resolve(process.cwd(), 'public/og-image.jpg')));
+  });
+});
+

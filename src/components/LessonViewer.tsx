@@ -403,9 +403,9 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               {appLang === 'hy' ? currentLesson.titleHy : currentLesson.titleEn}
-            </h1>
+            </h2>
             <p className="text-sm sm:text-base text-slate-600 max-w-3xl">
               {appLang === 'hy' ? currentLesson.summaryHy : currentLesson.summaryEn}
             </p>
@@ -415,11 +415,11 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
           <div className="bg-linear-to-r from-purple-50/80 via-white to-blue-50/80 border border-purple-200/90 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3">
             <div className="flex items-center gap-2.5">
               <AppLogoIcon size="xs" animateOnHover={false} />
-              <h2 className="text-sm sm:text-base font-extrabold text-slate-900">
+              <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
                 {appLang === 'hy'
                   ? 'Հայերենի առանձնահատկությունը ընդդեմ Անգլերենի'
                   : 'Armenian Contrast & Linguistic Rule'}
-              </h2>
+              </h3>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-normal">
@@ -482,9 +482,9 @@ export const LessonViewer: React.FC<LessonViewerProps> = ({
           <div className="space-y-6">
             {currentLesson.contentBlocks.map((block, bIdx) => (
               <div key={bIdx} className="space-y-3">
-                <h3 className="font-extrabold text-base sm:text-lg text-slate-900">
+                <h4 className="font-extrabold text-base sm:text-lg text-slate-900">
                   {appLang === 'hy' ? block.subtitleHy : block.subtitleEn}
-                </h3>
+                </h4>
                 <p className="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
                   {appLang === 'hy' ? block.explanationHy : block.explanationEn}
                 </p>

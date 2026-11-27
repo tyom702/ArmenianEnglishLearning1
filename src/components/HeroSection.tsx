@@ -155,7 +155,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="relative bg-white border border-slate-200/90 rounded-3xl p-2.5 sm:p-4 shadow-xl overflow-hidden">
               <img
                 src={heroIllustration}
-                alt={appLang === 'hy' ? 'Անգլերենի ուսուցման նկարազարդում' : 'English learning illustration'}
+                alt={
+                  appLang === 'hy'
+                    ? 'HayEnglish — Անգլերենի ինտերակտիվ ուսուցում հայախոսների համար'
+                    : 'HayEnglish interactive English learning illustration for Armenian speakers'
+                }
                 referrerPolicy="no-referrer"
                 className="w-full h-auto rounded-2xl object-cover"
                 loading="eager"

@@ -99,11 +99,11 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
       {/* Header and counter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
         <div className="min-w-0">
-          <h2 className="text-lg font-extrabold text-slate-900">
+          <h1 className="text-lg font-extrabold text-slate-900">
             {appLang === 'hy'
               ? 'Նախադասության կառուցիչ'
               : 'Interactive Sentence Builder'}
-          </h2>
+          </h1>
           <p className="text-xs text-slate-500">
             {appLang === 'hy'
               ? 'Տեղադրեք անգլերեն բառերը ճիշտ քերականական հերթականությամբ'

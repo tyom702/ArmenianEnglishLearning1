@@ -33,6 +33,7 @@ import {
   syncProgressFromFirestore,
 } from './utils/authStorage';
 import { syncAdsFromFirestore } from './utils/adStorage';
+import { applySeoMetadata } from './utils/seo';
 import {
   getOrCreateDailyMissions,
   recordMissionAction,
@@ -289,6 +290,15 @@ export default function App() {
       localStorage.setItem('hayenglish_lang', appLang);
     } catch {}
   }, [appLang]);
+
+  useEffect(() => {
+    applySeoMetadata({
+      appLang,
+      isAuthenticated: Boolean(currentUser),
+      activeTab,
+      isPrivateModalOpen: isAdminPortalOpen || isAdModalOpen,
+    });
+  }, [appLang, currentUser, activeTab, isAdminPortalOpen, isAdModalOpen]);
 
   useEffect(() => {
     try {
