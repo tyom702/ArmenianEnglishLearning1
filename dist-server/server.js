@@ -204,6 +204,21 @@ var requireOwnerSuperAdmin = (req, res, next) => {
 };
 function createApiApp() {
   const app = express();
+  const configuredOrigins = (process.env.ALLOWED_ORIGINS || "").split(",").map((o) => o.trim()).filter(Boolean);
+  app.use("/api", (req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin && configuredOrigins.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Vary", "Origin");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    }
+    if (req.method === "OPTIONS") {
+      res.status(204).end();
+      return;
+    }
+    next();
+  });
   app.use(express.json({ limit: "1mb" }));
   app.use(authenticateSession);
   app.get("/api/health", (_req, res) => {
@@ -447,6 +462,9 @@ function createApiApp() {
       isCurrentUser: u.id === currentUserId
     }));
     res.json({ success: true, leaders: ranked });
+  });
+  app.use("/api", (_req, res) => {
+    res.status(404).json({ error: "API endpoint not found" });
   });
   return app;
 }

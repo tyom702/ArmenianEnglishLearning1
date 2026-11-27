@@ -8,6 +8,7 @@ import {
   AD_PRICING_PLANS,
 } from '../utils/adStorage';
 import { isOwnerAdmin, OFFICIAL_OWNER_EMAIL } from '../utils/authStorage';
+import { getApiUrl } from '../utils/apiBase';
 import {
   X,
   Megaphone,
@@ -207,7 +208,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
 
       // Synchronize with server backend endpoint asynchronously
       try {
-        fetch('/api/ads/submit', {
+        fetch(getApiUrl('/api/ads/submit'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

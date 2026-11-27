@@ -1,7 +1,8 @@
 import { UserProfile, UserProgressData } from '../types';
 import { auth, db, googleAuthProvider, handleFirestoreError, OperationType } from '../firebase';
 import { signInWithPopup, signOut } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, collection, getDocs, limit, query } from 'firebase/firestore';
+import { getApiUrl } from './apiBase';
 
 export const OFFICIAL_OWNER_EMAIL = 'kurghinyanartyom2@gmail.com';
 
@@ -35,24 +36,95 @@ const canAccessUserFirestoreDoc = (userId: string): boolean => {
   return false;
 };
 
+export const waitForFirebaseAuthReady = async (): Promise<void> => {
+  try {
+    const authWithReady = auth as typeof auth & { authStateReady?: () => Promise<void> };
+    if (typeof authWithReady.authStateReady === 'function') {
+      await authWithReady.authStateReady();
+    }
+  } catch {
+    // Ignore if unavailable in non-browser environment
+  }
+};
+
+/**
+ * Authoritative Google/Firebase server-side owner verification:
+ * Used when the frontend is deployed on static hosting (e.g. Render Static Site / Firebase Hosting)
+ * where /api/* backend routes are not mounted (HTTP 404 or HTML fallback).
+ * Verifies BOTH:
+ * 1) Force-refreshed Firebase Auth token claims from Google Auth servers (email_verified + exact owner email)
+ * 2) A live Firestore query on `users` gated strictly by `allow list: if isSuperAdmin()` in firestore.rules
+ */
+export const verifyFirebaseOwnerViaServer = async (): Promise<{
+  authorized: boolean;
+  reason?: string;
+}> => {
+  await waitForFirebaseAuthReady();
+  const fbUser = auth.currentUser;
+  if (!fbUser) {
+    return {
+      authorized: false,
+      reason: `Please verify your Owner identity with Google Sign-In (${OFFICIAL_OWNER_EMAIL}).`,
+    };
+  }
+
+  try {
+    const tokenResult = await fbUser.getIdTokenResult(true);
+    const claimEmail =
+      typeof tokenResult.claims.email === 'string'
+        ? tokenResult.claims.email.trim().toLowerCase()
+        : (fbUser.email || '').trim().toLowerCase();
+    const emailVerified = tokenResult.claims.email_verified === true || fbUser.emailVerified;
+
+    if (!emailVerified || claimEmail !== OFFICIAL_OWNER_EMAIL.toLowerCase()) {
+      return {
+        authorized: false,
+        reason: `Access is strictly restricted to the verified owner account (${OFFICIAL_OWNER_EMAIL}).`,
+      };
+    }
+
+    // Confirm server-enforced Firestore Security Rules recognize this user as super_admin
+    await getDocs(query(collection(db, 'users'), limit(1)));
+    return { authorized: true };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Firestore admin permission check failed.';
+    return {
+      authorized: false,
+      reason: msg,
+    };
+  }
+};
+
 /**
  * Server-side cryptographic role verification:
  * Verifies with the backend server (/api/admin/check-access) that the current user
  * holds an authentic, cryptographically signed super_admin token or verified Firebase ID token.
+ * Only if the /api/* route itself is not mounted (404 / HTML static fallback), verifies via
+ * Firebase Auth + Firestore Security Rules servers. Explicit 401/403 rejections are never bypassed.
  */
 export const verifyServerOwnerAdmin = async (authToken?: string): Promise<boolean> => {
   try {
+    await waitForFirebaseAuthReady();
     let token = authToken || getActiveSessionUser()?.authToken;
-    if (!token && auth.currentUser) {
-      token = await auth.currentUser.getIdToken();
+    if (auth.currentUser) {
+      token = await auth.currentUser.getIdToken(true);
     }
     if (!token) return false;
 
-    const res = await fetch('/api/admin/check-access', {
+    const res = await fetch(getApiUrl('/api/admin/check-access'), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    const contentType = res.headers.get('content-type') || '';
+    const isMissingApiRoute =
+      res.status === 404 || (res.ok && !contentType.includes('application/json'));
+
+    if (isMissingApiRoute) {
+      const fbCheck = await verifyFirebaseOwnerViaServer();
+      return fbCheck.authorized;
+    }
 
     if (!res.ok) return false;
     const data = await res.json();
@@ -79,7 +151,7 @@ export const requestServerSessionToken = async (
 } | null> => {
   try {
     const firebaseIdToken = idToken || (auth.currentUser ? await auth.currentUser.getIdToken() : undefined);
-    const res = await fetch('/api/auth/token', {
+    const res = await fetch(getApiUrl('/api/auth/token'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -88,6 +160,11 @@ export const requestServerSessionToken = async (
         ...(firebaseIdToken ? { idToken: firebaseIdToken } : {}),
       }),
     });
+
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      return null;
+    }
 
     const data = await res.json().catch(() => null);
     if (!res.ok) {

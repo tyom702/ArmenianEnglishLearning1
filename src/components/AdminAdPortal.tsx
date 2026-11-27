@@ -16,7 +16,10 @@ import {
   signInWithGoogle,
   requestServerSessionToken,
   setActiveSessionUser,
+  waitForFirebaseAuthReady,
+  verifyFirebaseOwnerViaServer,
 } from '../utils/authStorage';
+import { getApiUrl } from '../utils/apiBase';
 import { auth } from '../firebase';
 import {
   ShieldCheck,
@@ -89,11 +92,12 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
     setNeedsGoogleAuth(false);
 
     try {
+      await waitForFirebaseAuthReady();
       let token = currentUser?.authToken;
       const fbUser = auth.currentUser;
 
       if (fbUser) {
-        const idToken = await fbUser.getIdToken();
+        const idToken = await fbUser.getIdToken(true);
         const tokenData = await requestServerSessionToken(fbUser.uid, fbUser.email || '', idToken);
         if (tokenData?.token) {
           token = tokenData.token;
@@ -125,9 +129,33 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
         return;
       }
 
-      const res = await fetch('/api/admin/check-access', {
+      const res = await fetch(getApiUrl('/api/admin/check-access'), {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      const contentType = res.headers.get('content-type') || '';
+      const isMissingApiRoute =
+        res.status === 404 || (res.ok && !contentType.includes('application/json'));
+
+      if (isMissingApiRoute) {
+        // Static CDN deployment (e.g. Render Static Site / Firebase Hosting) without /api/* backend mounted.
+        // Never trust localStorage alone — verify authoritatively via Google Firebase Auth + Firestore Security Rules.
+        const fbCheck = await verifyFirebaseOwnerViaServer();
+        if (fbCheck.authorized) {
+          setServerVerification('authorized');
+          refreshAds();
+          syncAdsFromFirestore(true).then((merged) => setAds(merged));
+          return;
+        }
+
+        setNeedsGoogleAuth(!auth.currentUser);
+        setServerVerification('denied');
+        setServerAuthError(
+          fbCheck.reason ||
+            `Verification failed: Access is strictly restricted to ${OFFICIAL_OWNER_EMAIL}.`
+        );
+        return;
+      }
 
       if (res.ok) {
         const data = await res.json();
@@ -236,7 +264,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
 
     try {
       const token = await getBearerToken();
-      await fetch('/api/admin/ads/review', {
+      await fetch(getApiUrl('/api/admin/ads/review'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -267,7 +295,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
 
     try {
       const token = await getBearerToken();
-      await fetch('/api/admin/ads/review', {
+      await fetch(getApiUrl('/api/admin/ads/review'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -290,7 +318,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
 
     try {
       const token = await getBearerToken();
-      await fetch('/api/admin/ads/review', {
+      await fetch(getApiUrl('/api/admin/ads/review'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -307,7 +335,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
 
     try {
       const token = await getBearerToken();
-      await fetch('/api/admin/ads/toggle', {
+      await fetch(getApiUrl('/api/admin/ads/toggle'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

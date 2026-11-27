@@ -25,6 +25,7 @@ import {
   isChoiceListeningExercise,
   validateListeningAnswer,
 } from '../src/utils/listeningValidation';
+import { getApiUrl } from '../src/utils/apiBase';
 
 describe('HayEnglish Security & Authorization Tests', () => {
   it('enforces that only OFFICIAL_OWNER_EMAIL receives super_admin role', () => {
@@ -307,6 +308,17 @@ describe('HayEnglish Backend API & Vercel Handler Tests', () => {
       // 5. Malformed Firebase ID tokens must safely return null
       const invalidFb = await verifyFirebaseIdToken('invalid.jwt');
       assert.strictEqual(invalidFb, null);
+
+      // 6. Unknown /api/* endpoints must return JSON 404 (never HTML SPA fallback)
+      const unknownApiRes = await fetch(`${baseUrl}/api/non-existent-endpoint`);
+      assert.strictEqual(unknownApiRes.status, 404);
+      assert.ok((unknownApiRes.headers.get('content-type') || '').includes('application/json'));
+      const unknownApiJson = await unknownApiRes.json();
+      assert.strictEqual(unknownApiJson.error, 'API endpoint not found');
+
+      // 7. API base helper preserves relative paths cleanly
+      assert.strictEqual(getApiUrl('/api/admin/check-access'), '/api/admin/check-access');
+      assert.strictEqual(getApiUrl('api/admin/check-access'), '/api/admin/check-access');
     } finally {
       await new Promise<void>((resolve, reject) =>
         server.close((err) => (err ? reject(err) : resolve()))
