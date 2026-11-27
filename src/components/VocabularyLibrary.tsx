@@ -117,11 +117,11 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Header Card */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
+          <div className="space-y-2 min-w-0">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200/80 text-indigo-700 text-xs font-bold">
-              <BookOpen className="w-3.5 h-3.5" />
+              <BookOpen className="w-3.5 h-3.5 shrink-0" />
               <span>
                 {appLang === 'hy'
                   ? 'Հայ-Անգլերեն հարուստ բառարան'
@@ -141,7 +141,7 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
           </div>
 
           {/* Quick Mastery Gauge */}
-          <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 sm:p-5 shrink-0 min-w-[220px]">
+          <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 sm:p-5 shrink-0 w-full md:w-auto md:min-w-[220px]">
             <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-2">
               <span>{appLang === 'hy' ? 'Յուրացված բառեր' : 'Mastered Words'}</span>
               <span className="text-indigo-600 font-extrabold">{progressPercent}%</span>
@@ -160,7 +160,7 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
 
         {/* Search Bar */}
         <div className="mt-6 relative">
-          <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-5 h-5 text-slate-400 absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
@@ -170,13 +170,13 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
                 ? 'Որոնել բառեր հայերենով կամ անգլերենով (օր.՝ opportunity, համագործակցություն, [դիփլոյ])...'
                 : 'Search words in English, Armenian, or phonetics (e.g. opportunity, collaboration)...'
             }
-            className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 text-sm font-medium text-slate-900 transition-all outline-none shadow-xs"
+            className="w-full pl-11 sm:pl-12 pr-16 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 text-sm font-medium text-slate-900 transition-all outline-none shadow-xs"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600 cursor-pointer"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600 cursor-pointer"
             >
               {appLang === 'hy' ? 'Մաքրել' : 'Clear'}
             </button>
@@ -186,11 +186,11 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
         {/* Filters Row */}
         <div className="mt-4 flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
           {/* Category Dropdown */}
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="appearance-none pl-3 pr-8 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 cursor-pointer border border-slate-200/60 outline-none"
+              className="w-full sm:w-auto max-w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 cursor-pointer border border-slate-200/60 outline-none"
             >
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -201,11 +201,11 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
           </div>
 
           {/* Part of Speech Dropdown */}
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <select
               value={selectedPartOfSpeech}
               onChange={(e) => setSelectedPartOfSpeech(e.target.value)}
-              className="appearance-none pl-3 pr-8 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 cursor-pointer border border-slate-200/60 outline-none"
+              className="w-full sm:w-auto max-w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 cursor-pointer border border-slate-200/60 outline-none"
             >
               {partsOfSpeech.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -216,7 +216,7 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
           </div>
 
           {/* Status Filter Toggle */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold">
+          <div className="flex flex-wrap items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold max-w-full">
             <button
               type="button"
               onClick={() => setStatusFilter('all')}
@@ -246,7 +246,7 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
             </button>
           </div>
 
-          <span className="ml-auto text-xs font-semibold text-slate-500">
+          <span className="sm:ml-auto text-xs font-semibold text-slate-500">
             {appLang === 'hy'
               ? `Գտնվել է ${filteredWords.length} բառ`
               : `Found ${filteredWords.length} words`}
@@ -263,15 +263,15 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
           return (
             <div
               key={word.id}
-              className={`p-5 rounded-3xl border transition-all duration-200 flex flex-col justify-between ${
+              className={`p-4 sm:p-5 rounded-3xl border transition-all duration-200 flex flex-col justify-between min-w-0 ${
                 isMastered
                   ? 'bg-emerald-50/40 border-emerald-200/90 shadow-xs'
                   : 'bg-white border-slate-200/90 hover:border-indigo-200 hover:shadow-md'
               }`}
             >
-              <div>
+              <div className="min-w-0">
                 {/* Top badges & Audio */}
-                <div className="flex items-start justify-between gap-2 mb-3">
+                <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-slate-100 text-slate-600">
                       {word.partOfSpeech}
@@ -290,27 +290,27 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
                 </div>
 
                 {/* English Word & Armenian Meaning */}
-                <div className="space-y-1">
-                  <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-baseline gap-2">
+                <div className="space-y-1 min-w-0">
+                  <h3 className="text-xl font-black text-slate-900 tracking-tight break-words">
                     <span>{word.english}</span>
                   </h3>
                   <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-                    <span className="text-slate-500 font-mono">{word.phonetic}</span>
-                    <span className="text-indigo-600 font-bold bg-indigo-50/70 px-2 py-0.5 rounded-md">
+                    <span className="text-slate-500 font-mono break-words">{word.phonetic}</span>
+                    <span className="text-indigo-600 font-bold bg-indigo-50/70 px-2 py-0.5 rounded-md break-words max-w-full">
                       {word.armenianPhonetic}
                     </span>
                   </div>
-                  <p className="text-base font-extrabold text-slate-800 pt-1">
+                  <p className="text-base font-extrabold text-slate-800 pt-1 break-words">
                     {word.armenian}
                   </p>
                 </div>
 
                 {/* Example sentence */}
                 <div className="mt-3 p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1 text-xs">
-                  <p className="font-semibold text-slate-800 leading-snug">
+                  <p className="font-semibold text-slate-800 leading-snug break-words">
                     "{word.exampleEn}"
                   </p>
-                  <p className="text-slate-500 leading-snug">
+                  <p className="text-slate-500 leading-snug break-words">
                     «{word.exampleHy}»
                   </p>
                 </div>
@@ -319,13 +319,13 @@ export const VocabularyLibrary: React.FC<VocabularyLibraryProps> = ({
                 {word.tipForArmenianSpeakers && (
                   <div className="mt-2.5 flex items-start gap-2 text-[11px] text-amber-900 bg-amber-50/80 border border-amber-200/80 p-2.5 rounded-xl">
                     <Info className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
-                    <span>{word.tipForArmenianSpeakers}</span>
+                    <span className="min-w-0 break-words">{word.tipForArmenianSpeakers}</span>
                   </div>
                 )}
               </div>
 
               {/* Bottom Actions */}
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
                 <button
                   type="button"
                   onClick={() => handleSendToReview(word)}

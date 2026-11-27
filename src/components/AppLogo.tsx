@@ -216,7 +216,7 @@ export const AppLogo: React.FC<AppLogoProps> = ({
           onClick?.();
         }
       }}
-      className={`group flex items-center gap-2.5 sm:gap-3.5 select-none ${
+      className={`group flex items-center gap-2 sm:gap-3.5 select-none min-w-0 max-w-full ${
         isInteractive ? 'cursor-pointer' : ''
       } ${className}`}
       title={
@@ -231,9 +231,9 @@ export const AppLogo: React.FC<AppLogoProps> = ({
       <AppLogoIcon size={size} />
 
       {/* Clean, Modern Wordmark Typography */}
-      <div className="flex flex-col justify-center">
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="text-lg sm:text-xl font-black tracking-tight leading-none text-slate-900 transition-colors group-hover:text-indigo-950">
+      <div className="flex flex-col justify-center min-w-0">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <span className="text-base sm:text-xl font-black tracking-tight leading-none text-slate-900 transition-colors group-hover:text-indigo-950">
             <span>Hay</span>
             <span className="bg-linear-to-r from-indigo-600 via-violet-600 to-blue-600 bg-clip-text text-transparent ml-0.5 font-black">
               English
@@ -241,7 +241,7 @@ export const AppLogo: React.FC<AppLogoProps> = ({
           </span>
 
           {showBadge && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider bg-linear-to-r from-indigo-50 via-purple-50 to-blue-50 text-indigo-700 border border-indigo-200/80 shadow-2xs">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider bg-linear-to-r from-indigo-50 via-purple-50 to-blue-50 text-indigo-700 border border-indigo-200/80 shadow-2xs shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>{appLang === 'hy' ? 'ՀԱՅ • ENG' : 'ARM • ENG'}</span>
             </span>

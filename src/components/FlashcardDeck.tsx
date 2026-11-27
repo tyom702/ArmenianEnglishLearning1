@@ -98,9 +98,9 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
   return (
     <div className="space-y-6">
       {/* Search & Category Filter Toolbar */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 min-w-0">
         {/* Search input */}
-        <div className="relative flex-1 max-w-md">
+        <div className="relative flex-1 w-full md:max-w-md min-w-0">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
@@ -150,7 +150,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
       </div>
 
       {/* Category Pills */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+      <div className="flex flex-wrap items-center gap-1.5">
         {categories.map((cat) => (
           <button
             key={cat.id}
@@ -204,24 +204,24 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                   key={word.id}
                   className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-blue-50/40 transition-colors"
                 >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-slate-900 text-base">{word.english}</span>
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-extrabold text-slate-900 text-base break-words">{word.english}</span>
                       <AudioButton text={word.english} rate={speechSpeed} size="sm" />
-                      <span className="text-xs font-mono text-indigo-600 font-medium">{word.phonetic}</span>
+                      <span className="text-xs font-mono text-indigo-600 font-medium break-words">{word.phonetic}</span>
                       <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 font-semibold border border-blue-200/60">
                         {word.partOfSpeech}
                       </span>
                     </div>
 
-                    <div className="text-sm font-bold text-indigo-700">
+                    <div className="text-sm font-bold text-indigo-700 break-words">
                       {word.armenian}{' '}
                       <span className="text-xs font-medium text-purple-900">
                         • {word.armenianPhonetic}
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-600 mt-1">
+                    <p className="text-xs text-slate-600 mt-1 break-words">
                       <span className="font-semibold text-slate-900">{word.exampleEn}</span> —{' '}
                       {word.exampleHy}
                     </p>

@@ -3,6 +3,12 @@ import { ListeningExercise, AppLanguage } from '../types';
 import { AudioButton } from './AudioButton';
 import { speakEnglish } from '../utils/speech';
 import {
+  isChoiceListeningExercise,
+  normalizeListeningAnswer,
+  validateListeningAnswer,
+} from '../utils/listeningValidation';
+export { isChoiceListeningExercise, normalizeListeningAnswer, validateListeningAnswer };
+import {
   Headphones,
   Mic,
   MicOff,
@@ -69,11 +75,21 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
   const [speechAccuracy, setSpeechAccuracy] = useState<number | null>(null);
   const [speechError, setSpeechError] = useState<string | null>(null);
   const recognitionRef = useRef<any>(null);
+  const autoAdvanceTimerRef = useRef<number | null>(null);
 
   const currentExercise = exercises[currentIndex] || exercises[0];
+  const isChoiceExercise = isChoiceListeningExercise(currentExercise);
+
+  const clearAutoAdvanceTimer = () => {
+    if (autoAdvanceTimerRef.current !== null) {
+      window.clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+  };
 
   useEffect(() => {
-    // Reset inputs on exercise change
+    // Reset inputs and pending auto-advance timer on exercise/mode change
+    clearAutoAdvanceTimer();
     setTypedInput('');
     setSelectedOption(null);
     setIsChecked(false);
@@ -89,29 +105,34 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
     setIsListening(false);
   }, [currentIndex, activeMode]);
 
+  useEffect(() => {
+    return () => {
+      clearAutoAdvanceTimer();
+    };
+  }, []);
+
   const handleCheckListening = () => {
     if (isChecked) return;
 
-    let correct = false;
-    if (currentExercise.type === 'dictation') {
-      const cleanTyped = typedInput.trim().toLowerCase();
-      const cleanTarget = (currentExercise.missingWord || currentExercise.phraseEn).toLowerCase();
-      correct = cleanTyped === cleanTarget;
-    } else {
-      correct = selectedOption === currentExercise.missingWord;
-    }
+    const correct = validateListeningAnswer(currentExercise, typedInput, selectedOption);
 
     setIsChecked(true);
     setIsCorrect(correct);
 
     if (correct) {
       onAddXP(20);
+      clearAutoAdvanceTimer();
+      autoAdvanceTimerRef.current = window.setTimeout(() => {
+        autoAdvanceTimerRef.current = null;
+        setCurrentIndex((prev) => (prev + 1) % exercises.length);
+      }, 900);
     } else if (onMistake) {
       onMistake(currentExercise);
     }
   };
 
   const handleNext = () => {
+    clearAutoAdvanceTimer();
     setCurrentIndex((prev) => (prev + 1) % exercises.length);
   };
 
@@ -188,7 +209,7 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       {/* Mode Switcher */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-3 shadow-xs flex items-center justify-between gap-2">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-2.5 sm:p-3 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
         <button
           type="button"
           onClick={() => setActiveMode('listening')}
@@ -198,7 +219,7 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
           }`}
         >
-          <Headphones className="w-4 h-4" />
+          <Headphones className="w-4 h-4 shrink-0" />
           <span>{appLang === 'hy' ? '1. Լսողական ըմբռնում' : '1. Listening Practice'}</span>
         </button>
 
@@ -211,24 +232,24 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
           }`}
         >
-          <Mic className="w-4 h-4" />
+          <Mic className="w-4 h-4 shrink-0" />
           <span>{appLang === 'hy' ? '2. Արտասանության մարզում' : '2. Pronunciation'}</span>
         </button>
       </div>
 
       {/* Main Interactive Practice Card */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm space-y-6 min-w-0">
         {/* Progress & Focus Sound Header */}
-        <div className="flex items-center justify-between text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
-          <span className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
+          <span className="flex flex-wrap items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-extrabold">
               {currentIndex + 1} / {exercises.length}
             </span>
             <span>{appLang === 'hy' ? 'Ֆոկուս հնչյուն՝' : 'Target Sound:'}</span>
-            <span className="text-slate-900 font-black">{currentExercise.focusSound}</span>
+            <span className="text-slate-900 font-black break-words">{currentExercise.focusSound}</span>
           </span>
 
-          <span className="px-2 py-0.5 rounded-md bg-slate-100 uppercase text-[10px] tracking-wider text-slate-600">
+          <span className="px-2 py-0.5 rounded-md bg-slate-100 uppercase text-[10px] tracking-wider text-slate-600 shrink-0">
             {currentExercise.difficulty}
           </span>
         </div>
@@ -246,11 +267,11 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
               </p>
 
               {/* Big Audio Player */}
-              <div className="flex items-center justify-center gap-3">
+              <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => speakEnglish(currentExercise.phraseEn, speechSpeed)}
-                  className="px-6 py-4 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-black text-sm sm:text-base flex items-center gap-3 cursor-pointer shadow-xs border border-indigo-200 active:scale-95 transition-all"
+                  className="px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-black text-sm sm:text-base flex items-center gap-2.5 sm:gap-3 cursor-pointer shadow-xs border border-indigo-200 active:scale-95 transition-all"
                 >
                   <Volume2 className="w-6 h-6 text-indigo-600 animate-pulse" />
                   <span>{appLang === 'hy' ? 'Լսել նախադասությունը' : 'Play Audio'}</span>
@@ -273,12 +294,16 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
             </div>
 
             {/* Question Interaction */}
-            {currentExercise.type === 'dictation' ? (
+            {!isChoiceExercise ? (
               <div className="space-y-3">
                 <label className="block text-xs font-bold text-slate-700">
-                  {appLang === 'hy'
-                    ? `Գրեք բաց թողնված բառը («${currentExercise.missingWord}»):`
-                    : `Type the missing word:`}
+                  {currentExercise.type === 'dictation' && currentExercise.missingWord
+                    ? appLang === 'hy'
+                      ? `Գրեք բաց թողնված բառը («${currentExercise.missingWord}»):`
+                      : `Type the missing word:`
+                    : appLang === 'hy'
+                    ? 'Գրեք բառը կամ նախադասությունը, որը լսեցիք՝'
+                    : 'Type the word or sentence you heard:'}
                 </label>
                 <div className="relative">
                   <input
@@ -286,7 +311,17 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
                     value={typedInput}
                     onChange={(e) => setTypedInput(e.target.value)}
                     disabled={isChecked}
-                    placeholder={appLang === 'hy' ? 'Գրեք անգլերեն բառը...' : 'Type word here...'}
+                    autoComplete="off"
+                    spellCheck={false}
+                    placeholder={
+                      currentExercise.missingWord
+                        ? appLang === 'hy'
+                          ? 'Գրեք անգլերեն բառը...'
+                          : 'Type word here...'
+                        : appLang === 'hy'
+                        ? 'Գրեք անգլերեն բառը կամ նախադասությունը...'
+                        : 'Type the English word or sentence...'
+                    }
                     className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-base font-bold text-slate-900 focus:bg-white focus:border-indigo-500 outline-none"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && typedInput.trim() && !isChecked) {
@@ -303,14 +338,14 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
                     ? 'Ընտրեք ճիշտ բառը, որը լսեցիք նախադասության մեջ՝'
                     : 'Select the word you heard:'}
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {(currentExercise.options || []).map((opt) => (
                     <button
                       key={opt}
                       type="button"
                       disabled={isChecked}
                       onClick={() => setSelectedOption(opt)}
-                      className={`p-3.5 rounded-2xl font-black text-sm border cursor-pointer transition-all ${
+                      className={`p-3.5 rounded-2xl font-black text-sm border cursor-pointer transition-all break-words min-w-0 ${
                         selectedOption === opt
                           ? 'bg-indigo-600 text-white border-indigo-600 shadow-md'
                           : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-800'
@@ -328,7 +363,7 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
               <button
                 type="button"
                 onClick={handleCheckListening}
-                disabled={currentExercise.type === 'dictation' ? !typedInput.trim() : !selectedOption}
+                disabled={isChoiceExercise ? !selectedOption : !typedInput.trim()}
                 className="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold text-sm shadow-md shadow-indigo-500/25 cursor-pointer active:scale-98 transition-all"
               >
                 {appLang === 'hy' ? 'Ստուգել պատասխանը (+20 XP)' : 'Check Answer (+20 XP)'}
@@ -354,8 +389,14 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
                           ? 'Հիանալի՛ է, ճիշտ է (+20 XP) 🎉'
                           : 'Excellent! Correct (+20 XP) 🎉'
                         : appLang === 'hy'
-                        ? 'Սխալ է. ճիշտ բառն է՝ ' + (currentExercise.missingWord || currentExercise.phraseEn)
-                        : 'Incorrect. The word is: ' + (currentExercise.missingWord || currentExercise.phraseEn)}
+                        ? (currentExercise.missingWord
+                            ? 'Սխալ է. ճիշտ բառն է՝ '
+                            : 'Սխալ է. ճիշտ պատասխանն է՝ ') +
+                          (currentExercise.missingWord || currentExercise.phraseEn)
+                        : (currentExercise.missingWord
+                            ? 'Incorrect. The word is: '
+                            : 'Incorrect. The correct answer is: ') +
+                          (currentExercise.missingWord || currentExercise.phraseEn)}
                     </p>
                     <p className="text-slate-600 font-semibold">{currentExercise.tipHy}</p>
                   </div>
@@ -383,7 +424,7 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
               <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">
                 {appLang === 'hy' ? 'Արտասանեք այս արտահայտությունը' : 'Pronounce this phrase'}
               </span>
-              <h3 className="text-xl sm:text-2xl font-black text-slate-900">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 break-words">
                 "{currentExercise.phraseEn}"
               </h3>
               <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold pt-1">
@@ -452,7 +493,7 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
 
             {transcript && (
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-xs font-bold text-slate-500">
                     {appLang === 'hy' ? 'Ձեր ասածը՝' : 'You said:'}
                   </span>
@@ -471,7 +512,7 @@ export const ListeningAndPronunciation: React.FC<ListeningAndPronunciationProps>
                   )}
                 </div>
 
-                <p className="text-base font-extrabold text-slate-800 italic">
+                <p className="text-base font-extrabold text-slate-800 italic break-words">
                   "{transcript}"
                 </p>
 

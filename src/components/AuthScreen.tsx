@@ -235,13 +235,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen w-full max-w-full overflow-x-clip bg-slate-50 flex flex-col justify-between selection:bg-indigo-100 selection:text-indigo-900">
       {/* Top Header Bar with Language Switcher */}
       <header className="border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-3.5 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2.5">
           <AppLogo size="sm" appLang={appLang} showBadge={true} />
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <span className="text-xs text-slate-500 hidden sm:inline">
               {appLang === 'hy' ? 'Ինտերֆեյսի լեզու՝' : 'App language:'}
             </span>
@@ -258,11 +258,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       </header>
 
       {/* Main Welcoming Authentication Container */}
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <main className="flex-1 min-w-0 flex items-center justify-center p-3 sm:p-6 lg:p-8">
         <div className="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
           
           {/* Left Hero & Platform Benefits Column (Desktop) */}
-          <div className="lg:col-span-5 bg-linear-to-br from-indigo-900 via-indigo-800 to-blue-900 text-white p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+          <div className="lg:col-span-5 min-w-0 bg-linear-to-br from-indigo-900 via-indigo-800 to-blue-900 text-white p-5 sm:p-8 flex flex-col justify-between relative overflow-hidden">
             {/* Subtle background ornamentation */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-400/10 rounded-full blur-2xl -ml-12 -mb-12 pointer-events-none" />
@@ -362,23 +362,23 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           </div>
 
           {/* Right Form Column: Register or Log In */}
-          <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
-            <div>
+          <div className="lg:col-span-7 min-w-0 p-4 sm:p-8 lg:p-10 flex flex-col justify-between">
+            <div className="min-w-0">
               {/* Form Navigation Tabs */}
-              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-2xl mb-6">
+              <div className="flex flex-wrap items-center gap-1 bg-slate-100 p-1 rounded-2xl mb-6">
                 <button
                   type="button"
                   onClick={() => {
                     setAuthMode('login');
                     setErrorMessage(null);
                   }}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer transition-all ${
+                  className={`flex-1 min-w-[120px] py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer transition-all ${
                     authMode === 'login'
                       ? 'bg-white text-indigo-950 shadow-xs'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  <LogIn className="w-4 h-4 text-indigo-600" />
+                  <LogIn className="w-4 h-4 text-indigo-600 shrink-0" />
                   <span>{appLang === 'hy' ? 'Մուտք գործել' : 'Log In'}</span>
                 </button>
 
@@ -388,14 +388,14 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     setAuthMode('register');
                     setErrorMessage(null);
                   }}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer transition-all ${
+                  className={`flex-1 min-w-[140px] py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer transition-all ${
                     authMode === 'register'
                       ? 'bg-white text-indigo-950 shadow-xs'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  <UserPlus className="w-4 h-4 text-indigo-600" />
-                  <span>{appLang === 'hy' ? 'Գրանցվել (Ստեղծել հաշիվ)' : 'Register (New Account)'}</span>
+                  <UserPlus className="w-4 h-4 text-indigo-600 shrink-0" />
+                  <span className="truncate">{appLang === 'hy' ? 'Գրանցվել' : 'Register'}</span>
                 </button>
               </div>
 
@@ -480,7 +480,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   </div>
 
                   <div className="space-y-1.5">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between gap-1.5">
                       <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
                         <Lock className="w-3.5 h-3.5 text-slate-400" />
                         <span>{appLang === 'hy' ? 'Գաղտնաբառ' : 'Password'}</span>
@@ -637,7 +637,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     <label className="text-xs font-bold text-slate-700">
                       {appLang === 'hy' ? 'Ընտրեք ձեր ավատարը' : 'Choose your student avatar'}
                     </label>
-                    <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                    <div className="flex flex-wrap items-center gap-2 pb-1">
                       {AVATAR_OPTIONS.map((av) => (
                         <button
                           key={av.id}
@@ -736,7 +736,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             </div>
 
             {/* Bottom helper text */}
-            <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <div className="pt-6 mt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500">
               <span>HayEnglish • 2026</span>
               <button
                 type="button"
@@ -744,7 +744,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   setAuthMode(authMode === 'login' ? 'register' : 'login');
                   setErrorMessage(null);
                 }}
-                className="text-indigo-600 font-bold hover:underline cursor-pointer"
+                className="text-indigo-600 font-bold hover:underline cursor-pointer text-left"
               >
                 {authMode === 'login'
                   ? appLang === 'hy'
@@ -760,7 +760,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/80 bg-white py-4 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-200/80 bg-white px-4 py-4 text-center text-xs text-slate-500">
         <p>
           {appLang === 'hy'
             ? 'HayEnglish — Անգլերենի ուսուցում հայախոսների համար: Դասերին և վահանակին հասանելիությունը պահանջում է գրանցված հաշիվ:'

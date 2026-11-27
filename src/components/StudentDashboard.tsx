@@ -319,13 +319,13 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
       {/* ========================================================================= */}
       {/* 1. STUDENT IDENTITY & LEVEL HERO BANNER                                    */}
       {/* ========================================================================= */}
-      <div className="relative bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-sm overflow-hidden">
+      <div className="relative bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 lg:p-10 shadow-sm overflow-hidden">
         {/* Subtle decorative background glow */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-50/50 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           {/* Student Profile Info */}
-          <div className="flex items-start sm:items-center gap-4 sm:gap-6">
+          <div className="flex items-start sm:items-center gap-3 sm:gap-6 min-w-0">
             <div className="relative shrink-0">
               {currentUser?.avatar ? (
                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-indigo-50 border-2 border-indigo-200 flex items-center justify-center text-3xl sm:text-4xl shadow-sm">
@@ -339,9 +339,9 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               </div>
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight break-words">
                   {currentUser?.name || (appLang === 'hy' ? 'Ուսանողի վահանակ' : 'Student Dashboard')}
                 </h1>
                 <span
@@ -369,7 +369,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               </p>
 
               {/* Quick status line */}
-              <div className="flex items-center gap-3 pt-1 text-xs font-semibold text-slate-500">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 text-xs font-semibold text-slate-500">
                 <span className="flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>
@@ -425,8 +425,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
 
         {/* Level XP Progress Bar */}
         <div className="mt-8 pt-6 border-t border-slate-100 space-y-2">
-          <div className="flex items-center justify-between text-xs font-bold">
-            <div className="flex items-center gap-2 text-slate-700">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold">
+            <div className="flex flex-wrap items-center gap-2 text-slate-700 min-w-0">
               <span className="text-slate-900 font-extrabold">
                 {appLang === 'hy' ? `Մակարդակ ${currentLevel.levelNumber}` : `Level ${currentLevel.levelNumber}`}
               </span>
@@ -434,7 +434,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               <span>{appLang === 'hy' ? currentLevel.titleHy : currentLevel.titleEn}</span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-indigo-700">
+            <div className="flex flex-wrap items-center gap-1.5 text-indigo-700">
               {nextLevel ? (
                 <>
                   <span className="font-extrabold">{userXP} XP</span>
@@ -647,11 +647,11 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
       {/* ========================================================================= */}
       {/* 3. LEARNING PROGRESS BY CEFR LEVEL & LESSON LIST                          */}
       {/* ========================================================================= */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
-          <div>
+          <div className="min-w-0">
             <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
-              <Compass className="w-5 h-5 text-indigo-600" />
+              <Compass className="w-5 h-5 text-indigo-600 shrink-0" />
               <span>{appLang === 'hy' ? 'Ուսումնական առաջընթաց ըստ CEFR մակարդակների' : 'Learning Progress by CEFR Level'}</span>
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -662,13 +662,13 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           </div>
 
           {/* Level Filter Tabs */}
-          <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200/60 text-xs font-bold shrink-0">
+          <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200/60 text-xs font-bold max-w-full">
             {(['ALL', 'A1', 'A2', 'B1', 'B2'] as const).map((lvl) => (
               <button
                 key={lvl}
                 type="button"
                 onClick={() => setActiveLevelFilter(lvl)}
-                className={`px-3 py-1.5 rounded-lg cursor-pointer transition-all ${
+                className={`px-2.5 sm:px-3 py-1.5 rounded-lg cursor-pointer transition-all ${
                   activeLevelFilter === lvl
                     ? 'bg-white text-slate-900 shadow-2xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -807,14 +807,14 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
       {/* ========================================================================= */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Weekly Consistency & Streak Calendar */}
-        <div className="lg:col-span-6 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between min-w-0">
           <div className="space-y-1">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-indigo-600" />
+                <Calendar className="w-4 h-4 text-indigo-600 shrink-0" />
                 <span>{appLang === 'hy' ? 'Շաբաթական սերիայի օրացույց' : 'Weekly Streak Calendar'}</span>
               </h3>
-              <span className="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200/80 font-black text-xs">
+              <span className="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200/80 font-black text-xs shrink-0">
                 🔥 {streakCount} {appLang === 'hy' ? 'օր' : 'days'}
               </span>
             </div>
@@ -826,33 +826,33 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           </div>
 
           {/* 7 Days tracker row */}
-          <div className="grid grid-cols-7 gap-2 text-center pt-2">
+          <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-2">
             {weekDays.map((item, idx) => (
               <div
                 key={idx}
-                className={`p-2.5 sm:p-3 rounded-xl border flex flex-col items-center gap-1.5 transition-all ${
+                className={`p-1.5 sm:p-3 rounded-xl border flex flex-col items-center gap-1 sm:gap-1.5 transition-all min-w-0 ${
                   item.active
                     ? 'bg-linear-to-b from-amber-50 to-orange-50/50 border-amber-300 text-amber-950 shadow-2xs'
                     : 'bg-slate-50 border-slate-200 text-slate-400'
                 }`}
               >
-                <span className="text-[11px] font-bold">
+                <span className="text-[10px] sm:text-[11px] font-bold truncate max-w-full">
                   {appLang === 'hy' ? item.dayHy : item.dayEn}
                 </span>
                 <div
-                  className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
+                  className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs ${
                     item.active
                       ? 'bg-amber-500 text-white shadow-2xs font-bold'
                       : 'bg-slate-200 text-slate-400'
                   }`}
                 >
-                  {item.active ? <Flame className="w-3.5 h-3.5 fill-white" /> : '•'}
+                  {item.active ? <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" /> : '•'}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 text-xs text-slate-600 flex items-center justify-between">
+          <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 text-xs text-slate-600 flex flex-wrap items-center justify-between gap-1.5">
             <span className="font-semibold">
               {appLang === 'hy' ? 'Ամենօրյա խորհուրդ.' : 'Tip:'}
             </span>
@@ -865,14 +865,14 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
         </div>
 
         {/* Vocabulary & Skill Mastery Card */}
-        <div className="lg:col-span-6 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-7 shadow-sm space-y-5 flex flex-col justify-between min-w-0">
           <div className="space-y-1">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-indigo-600" />
+                <Layers className="w-4 h-4 text-indigo-600 shrink-0" />
                 <span>{appLang === 'hy' ? 'Բառապաշարի տիրապետում' : 'Vocabulary Mastery'}</span>
               </h3>
-              <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200/80 font-black text-xs">
+              <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200/80 font-black text-xs shrink-0">
                 {totalMasteredWords} / {totalWords} {appLang === 'hy' ? 'յուրացված' : 'mastered'}
               </span>
             </div>
@@ -913,11 +913,11 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
       {/* ========================================================================= */}
       {/* 4.5 LEARNED WORDS EXPLORER & REVIEW SYSTEM PROMPT                         */}
       {/* ========================================================================= */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
-          <div>
+          <div className="min-w-0">
             <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-indigo-600" />
+              <Sparkles className="w-5 h-5 text-indigo-600 shrink-0" />
               <span>{appLang === 'hy' ? 'Իմ յուրացրած բառերը' : 'Learned Words & Vocabulary'}</span>
             </h3>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -927,7 +927,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={() => setShowOnlyMasteredWords(!showOnlyMasteredWords)}
@@ -962,23 +962,23 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               return (
                 <div
                   key={w.id}
-                  className={`p-3.5 rounded-2xl border transition-all flex items-start justify-between gap-2 ${
+                  className={`p-3.5 rounded-2xl border transition-all flex items-start justify-between gap-2 min-w-0 ${
                     isMastered
                       ? 'bg-emerald-50/40 border-emerald-200/80 shadow-2xs'
                       : 'bg-slate-50/60 border-slate-200/80'
                   }`}
                 >
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-extrabold text-xs sm:text-sm text-slate-900">
+                  <div className="space-y-0.5 min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="font-extrabold text-xs sm:text-sm text-slate-900 break-words">
                         {w.english}
                       </span>
                       {isMastered && (
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                       )}
                     </div>
-                    <p className="text-xs text-slate-600 font-semibold">{w.armenian}</p>
-                    <span className="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-1.5 py-0.5 rounded">
+                    <p className="text-xs text-slate-600 font-semibold break-words">{w.armenian}</p>
+                    <span className="inline-block text-[10px] text-indigo-600 font-bold bg-indigo-50 px-1.5 py-0.5 rounded break-words max-w-full">
                       {w.armenianPhonetic}
                     </span>
                   </div>
@@ -1008,11 +1008,11 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
       {/* ========================================================================= */}
       {/* 5. ACHIEVEMENTS & MEDAL BADGES                                            */}
       {/* ========================================================================= */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-5">
-          <div>
+          <div className="min-w-0">
             <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
-              <Award className="w-5 h-5 text-amber-500" />
+              <Award className="w-5 h-5 text-amber-500 shrink-0" />
               <span>{appLang === 'hy' ? 'Ուսումնական նվաճումներ և մեդալներ' : 'Student Achievements & Badges'}</span>
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -1022,7 +1022,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-bold">
+          <div className="flex items-center gap-2 text-xs font-bold shrink-0">
             <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200/80 font-black">
               🏆 {unlockedAchievementsCount} / {achievements.length} {appLang === 'hy' ? 'բացված' : 'unlocked'}
             </span>
@@ -1034,7 +1034,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
           {achievements.map((ach) => (
             <div
               key={ach.id}
-              className={`p-4 sm:p-5 rounded-2xl border transition-all flex items-start gap-3.5 ${
+              className={`p-4 sm:p-5 rounded-2xl border transition-all flex items-start gap-3.5 min-w-0 ${
                 ach.unlocked
                   ? 'bg-linear-to-br from-amber-50/40 via-white to-orange-50/30 border-amber-300/90 shadow-2xs ring-1 ring-amber-400/20'
                   : 'bg-slate-50/60 border-slate-200/80 opacity-70'
@@ -1050,7 +1050,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
                 <span>{ach.icon}</span>
               </div>
 
-              <div className="space-y-1 flex-1">
+              <div className="space-y-1 flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-1">
                   <h4 className="font-extrabold text-sm text-slate-900 leading-snug">
                     {appLang === 'hy' ? ach.titleHy : ach.titleEn}
@@ -1102,7 +1102,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               <span>{appLang === 'hy' ? 'Վերագործարկել առաջընթացը' : 'Reset Progress'}</span>
             </button>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-rose-600 font-bold">
                 {appLang === 'hy' ? 'Վստա՞հ եք:' : 'Are you sure?'}
               </span>

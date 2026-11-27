@@ -240,7 +240,7 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
   if (quizFinished) {
     return (
       <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in-50 duration-300">
-        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 text-center shadow-md space-y-6">
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-10 text-center shadow-md space-y-6">
           {/* Trophy & XP Banner */}
           <div className="relative inline-block">
             <div className="w-20 h-20 mx-auto rounded-3xl bg-linear-to-tr from-amber-400 to-amber-200 text-amber-950 flex items-center justify-center border border-amber-300 shadow-md shadow-amber-500/20">
@@ -342,9 +342,9 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
         />
 
         {/* Detailed Question Review List */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
           <h3 className="font-extrabold text-sm sm:text-base text-slate-900 flex items-center gap-2">
-            <Award className="w-4 h-4 text-indigo-600" />
+            <Award className="w-4 h-4 text-indigo-600 shrink-0" />
             <span>{appLang === 'hy' ? 'Հարցերի ամփոփում և բացատրություններ' : 'Question Breakdown & Review'}</span>
           </h3>
 
@@ -352,14 +352,14 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
             {history.map((item, idx) => (
               <div
                 key={idx}
-                className={`p-4 rounded-xl border text-left space-y-2 transition-all ${
+                className={`p-3.5 sm:p-4 rounded-xl border text-left space-y-2 transition-all min-w-0 ${
                   item.isCorrect
                     ? 'bg-emerald-50/50 border-emerald-200/80'
                     : 'bg-rose-50/50 border-rose-200/80'
                 }`}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-2.5">
+                <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
+                  <div className="flex items-start gap-2.5 min-w-0 flex-1">
                     <span
                       className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold ${
                         item.isCorrect
@@ -369,11 +369,11 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
                     >
                       {item.isCorrect ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
                     </span>
-                    <div>
-                      <h4 className="font-bold text-xs sm:text-sm text-slate-900 leading-snug">
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-bold text-xs sm:text-sm text-slate-900 leading-snug break-words">
                         {appLang === 'hy' ? item.question.questionHy : item.question.questionEn}
                       </h4>
-                      <p className="text-xs text-slate-600 mt-1">
+                      <p className="text-xs text-slate-600 mt-1 break-words">
                         <strong className="font-semibold text-slate-700">
                           {appLang === 'hy' ? 'Ճիշտ պատասխան՝ ' : 'Correct answer: '}
                         </strong>
@@ -395,7 +395,7 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
                   </span>
                 </div>
 
-                <div className="pl-8 pt-1 text-[11px] sm:text-xs text-slate-600 border-t border-slate-200/40">
+                <div className="pl-0 sm:pl-8 pt-1 text-[11px] sm:text-xs text-slate-600 border-t border-slate-200/40 break-words">
                   <p>{appLang === 'hy' ? item.question.explanationHy : item.question.explanationEn}</p>
                 </div>
               </div>
@@ -412,8 +412,8 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
   return (
     <div className="max-w-2xl mx-auto space-y-5">
       {/* Category Pills Bar */}
-      <div className="flex items-center justify-between gap-2 overflow-x-auto pb-1">
-        <div className="flex items-center gap-1.5 p-1 bg-white border border-slate-200/80 rounded-xl text-xs font-bold shadow-2xs">
+      <div className="w-full">
+        <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-white border border-slate-200/80 rounded-xl text-xs font-bold shadow-2xs w-full">
           {['all', 'grammar', 'prepositions', 'false-friends', 'articles', 'idioms'].map((cat) => {
             const isSel = selectedCategory === cat;
             const label = categoryLabels[cat] || { hy: cat, en: cat };
@@ -438,8 +438,8 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
 
       {/* Quiz Status & XP HUD Bar */}
       <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
-        <div className="flex items-center justify-between text-xs font-bold text-slate-700">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-700">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="flex items-center gap-1 text-slate-600">
               <Award className="w-4 h-4 text-indigo-600" />
               <span>
@@ -493,10 +493,10 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
       </div>
 
       {/* Main Question Card */}
-      <div className="relative bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-7 lg:p-8 shadow-sm space-y-5 sm:space-y-6">
+      <div className="relative bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-7 lg:p-8 shadow-sm space-y-5 sm:space-y-6 min-w-0">
         {/* Animated XP Earned Floating Badge */}
         {lastEarnedXP !== null && (
-          <div className="absolute top-4 right-6 animate-bounce z-10">
+          <div className="absolute top-3 right-3 sm:top-4 sm:right-6 animate-bounce z-10">
             <div
               className={`inline-flex items-center gap-1 px-3 py-1 rounded-full font-black text-xs shadow-md ${
                 lastEarnedXP > 0
@@ -512,7 +512,7 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
 
         {/* Question Header & Armenian Question Text */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider bg-indigo-50 text-indigo-700 border border-indigo-200/60">
               {categoryLabels[currentQ.category]
                 ? appLang === 'hy'
@@ -579,15 +579,15 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
                 type="button"
                 onClick={() => handleSelectOption(optIdx)}
                 disabled={isAnswered}
-                className={`relative w-full p-4 rounded-2xl border text-left text-sm sm:text-base transition-all flex items-center justify-between cursor-pointer active:scale-99 ${btnClasses}`}
+                className={`relative w-full p-3.5 sm:p-4 rounded-2xl border text-left text-sm sm:text-base transition-all flex items-center justify-between gap-2 cursor-pointer active:scale-99 min-w-0 ${btnClasses}`}
               >
-                <div className="flex items-center gap-3.5 pr-2">
+                <div className="flex items-center gap-2.5 sm:gap-3.5 pr-1 min-w-0 flex-1">
                   <span
                     className={`w-8 h-8 rounded-xl border flex items-center justify-center text-xs sm:text-sm font-black shrink-0 transition-colors ${badgeClasses}`}
                   >
                     {letter}
                   </span>
-                  <span className="font-semibold leading-snug">{opt}</span>
+                  <span className="font-semibold leading-snug break-words min-w-0">{opt}</span>
                 </div>
 
                 {/* Right status icon */}
@@ -700,7 +700,7 @@ export const DailyQuiz: React.FC<DailyQuizProps> = ({
 
       {/* Sticky Mobile Next Question Action Bar */}
       {isAnswered && (
-        <div className="md:hidden fixed bottom-14 left-0 right-0 p-3 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-2xl z-40 animate-in slide-in-from-bottom duration-200">
+        <div className="md:hidden fixed bottom-16 left-0 right-0 p-3 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-2xl z-40 animate-in slide-in-from-bottom duration-200">
           <div className="max-w-md mx-auto flex items-center justify-between gap-3 px-1">
             <div className="text-xs font-bold truncate">
               {selectedOptIdx === currentQ.correctIndex ? (

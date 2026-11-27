@@ -497,7 +497,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/60 text-slate-900 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen w-full max-w-full overflow-x-clip bg-slate-50/60 text-slate-900 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
       {/* Top sticky navigation header */}
       <Header
         appLang={appLang}
@@ -519,7 +519,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-8 space-y-6 sm:space-y-8 pb-28 md:pb-12">
+      <main className="flex-1 min-w-0 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 space-y-6 sm:space-y-8 pb-28 md:pb-12">
         {/* Mobile-Only Top Progress & Streak Banner */}
         <MobileProgressBanner
           userXP={userXP}
@@ -559,33 +559,33 @@ export default function App() {
             />
 
             {/* Welcome Micro-Banner with Armenian Proverb & Daily Focus */}
-            <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
                   <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">
                     {appLang === 'hy' ? 'Օրվա հայկական խորհուրդը' : 'Daily Armenian Learner Tip'}
                   </span>
                 </div>
-                <p className="text-sm sm:text-base font-extrabold text-slate-900">
+                <p className="text-sm sm:text-base font-extrabold text-slate-900 break-words">
                   {appLang === 'hy'
                     ? '«Որքան լեզու գիտես, այնքան մարդ ես» — Մի՛ վախեցեք սխալվելուց, ակցենտը ձեր ինքնությունն է:'
                     : '"The more languages you know, the more human you are." — Speak boldly and embrace learning!'}
                 </p>
-                <p className="text-xs text-slate-600">
+                <p className="text-xs text-slate-600 break-words">
                   {appLang === 'hy'
                     ? 'Այսօր կենտրոնացեք արտիկլների (a, an, the) և «W» հնչյունի ճիշտ արտասանության վրա:'
                     : 'Today\'s focus: Mastering English articles and distinguishing "W" vs "V" sounds.'}
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsMissionsModalOpen(true)}
                   className="px-4 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 text-xs sm:text-sm font-bold flex items-center gap-1.5 cursor-pointer transition-all active:scale-98"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                   <span>
                     {appLang === 'hy'
                       ? `Առաքելություններ (${dailyMissions.filter((m) => m.completed).length}/4)`
@@ -599,7 +599,7 @@ export default function App() {
                   className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold flex items-center gap-1.5 cursor-pointer shadow-sm shadow-indigo-500/25 transition-all active:scale-98"
                 >
                   <span>{appLang === 'hy' ? 'Արագ թեստ (3 րոպե)' : '3-Min Quiz'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </button>
               </div>
             </div>
@@ -607,7 +607,7 @@ export default function App() {
         )}
 
         {/* Tab View Switcher Anchor */}
-        <div id="learning-content" className="scroll-mt-24">
+        <div id="learning-content" className="scroll-mt-24 min-w-0">
           {activeTab === 'dashboard' && (
             <StudentDashboard
               userXP={userXP}
@@ -745,9 +745,9 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/80 bg-white/80 mt-12 py-8 pb-24 md:pb-8 text-xs text-slate-500">
+      <footer className="w-full border-t border-slate-200/80 bg-white/80 mt-12 py-8 pb-24 md:pb-8 text-xs text-slate-500">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 min-w-0">
             <AppLogo
               size="sm"
               showTagline={false}
@@ -766,7 +766,7 @@ export default function App() {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 text-slate-500">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-3 gap-y-2 text-slate-500">
             <button
               type="button"
               onClick={() => handleOpenAdRequestModal()}

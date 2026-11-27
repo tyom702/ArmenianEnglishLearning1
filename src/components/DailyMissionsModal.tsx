@@ -25,14 +25,14 @@ export const DailyMissionsModal: React.FC<DailyMissionsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-7 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-3xl max-w-lg w-full p-4 sm:p-7 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-amber-500/20">
+        <div className="flex items-center justify-between gap-2 pb-4 border-b border-slate-100">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-amber-500/20 shrink-0">
               <Target className="w-5 h-5" />
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <h3 className="font-extrabold text-base sm:text-lg text-slate-900 leading-tight">
                 {appLang === 'hy' ? 'Օրվա առաքելություններ' : 'Daily Missions'}
               </h3>
@@ -88,10 +88,10 @@ export const DailyMissionsModal: React.FC<DailyMissionsModalProps> = ({
                     : 'bg-white border-slate-200/90 hover:border-indigo-200'
                 }`}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1.5 flex-1">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1.5 flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-extrabold text-slate-900 leading-snug">
+                      <span className="text-sm font-extrabold text-slate-900 leading-snug break-words">
                         {appLang === 'hy' ? mission.titleHy : mission.titleEn}
                       </span>
                     </div>
@@ -142,7 +142,7 @@ export const DailyMissionsModal: React.FC<DailyMissionsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+        <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
           <span>
             {appLang === 'hy'
               ? `${claimedCount} առաքելության պարգև ստացված է`

@@ -282,18 +282,18 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
 
       {/* Modal Dialog */}
       <div
-        className="relative z-10 bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in-50 zoom-in-95 duration-200 cursor-default"
+        className="relative z-10 bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-3xl w-full min-w-0 max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in-50 zoom-in-95 duration-200 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Bar */}
-        <div className="p-4 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
-          <div className="flex items-center gap-3">
+        <div className="p-4 sm:p-6 border-b border-slate-100 flex items-center justify-between gap-2 bg-slate-50/80">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-linear-to-br from-indigo-600 to-blue-600 text-white flex items-center justify-center shadow-sm shrink-0">
               <Megaphone className="w-5 h-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-base sm:text-xl font-black text-slate-900 tracking-tight break-words">
                   {appLang === 'hy' ? 'Գովազդ մեր մոտ — HayEnglish' : 'Advertise with HayEnglish'}
                 </h3>
                 <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold text-[10px]">
@@ -308,7 +308,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {onOpenAdminPortal && isOwnerAdmin(currentUser) && (
               <button
                 type="button"
@@ -346,12 +346,12 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
         {/* OFFICIAL WEBSITE OWNER & SUPER ADMIN CONTACT DISPLAY                      */}
         {/* "Send your advertisement request to: kurghinyanartyom2@gmail.com"         */}
         {/* ========================================================================= */}
-        <div className="mx-4 sm:mx-6 mt-4 p-4 rounded-2xl bg-linear-to-r from-blue-50/90 via-indigo-50/90 to-purple-50/90 border-2 border-indigo-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-start sm:items-center gap-3">
+        <div className="mx-3 sm:mx-6 mt-4 p-3.5 sm:p-4 rounded-2xl bg-linear-to-r from-blue-50/90 via-indigo-50/90 to-purple-50/90 border-2 border-indigo-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
             <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
               <Mail className="w-5 h-5" />
             </div>
-            <div className="space-y-0.5 min-w-0">
+            <div className="space-y-0.5 min-w-0 flex-1">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-600 text-white">
                   {appLang === 'hy' ? 'Կայքի տիրոջ պաշտոնական էլ. փոստ' : "Website Owner's Official Admin Email"}
@@ -360,20 +360,20 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                   {appLang === 'hy' ? 'Գովազդի ընդունում' : 'Ad Inquiries Desk'}
                 </span>
               </div>
-              <p className="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-1.5 flex-wrap">
+              <p className="text-xs sm:text-base font-extrabold text-slate-900 flex items-center gap-1.5 flex-wrap break-words">
                 <span>{appLang === 'hy' ? 'Ուղարկեք ձեր գովազդային հարցումը՝' : 'Send your advertisement request to:'}</span>
                 <a
                   href={`mailto:${OFFICIAL_OWNER_EMAIL}?subject=Ad%20Placement%20Request%20-%20HayEnglish`}
-                  className="text-indigo-700 hover:text-indigo-900 underline decoration-indigo-400 font-black inline-flex items-center gap-1"
+                  className="text-indigo-700 hover:text-indigo-900 underline decoration-indigo-400 font-black inline-flex items-center gap-1 break-all sm:break-normal max-w-full"
                 >
                   <span>{OFFICIAL_OWNER_EMAIL}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                 </a>
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-center shrink-0">
             <button
               type="button"
               onClick={handleCopyOwnerEmail}
@@ -404,7 +404,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
         </div>
 
         {/* Tab switch */}
-        <div className="flex border-b border-slate-100 px-4 sm:px-6 pt-2 bg-slate-50/40">
+        <div className="flex flex-wrap border-b border-slate-100 px-3 sm:px-6 pt-2 gap-1 bg-slate-50/40">
           <button
             type="button"
             onClick={() => setActiveTab('form')}
@@ -461,27 +461,27 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                 </div>
 
                 <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-left text-xs space-y-2">
-                  <div className="flex justify-between">
+                  <div className="flex flex-wrap justify-between gap-2">
                     <span className="text-slate-500">{appLang === 'hy' ? 'Բիզնես՝' : 'Business:'}</span>
-                    <span className="font-bold text-slate-900">{businessName}</span>
+                    <span className="font-bold text-slate-900 break-words text-right">{businessName}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex flex-wrap justify-between gap-2">
                     <span className="text-slate-500">{appLang === 'hy' ? 'Տեղադրություն՝' : 'Placement:'}</span>
-                    <span className="font-bold text-indigo-700">{getPlacementTitle(placement)}</span>
+                    <span className="font-bold text-indigo-700 break-words text-right">{getPlacementTitle(placement)}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex flex-wrap justify-between gap-2">
                     <span className="text-slate-500">{appLang === 'hy' ? 'Տևողություն՝' : 'Duration:'}</span>
-                    <span className="font-bold text-slate-900">
+                    <span className="font-bold text-slate-900 break-words text-right">
                       {appLang === 'hy' ? currentPlan.labelHy : currentPlan.labelEn}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center pt-1 border-t border-slate-200">
+                  <div className="flex flex-wrap justify-between items-center gap-2 pt-1 border-t border-slate-200">
                     <span className="text-slate-600 font-bold">{appLang === 'hy' ? 'Ավտոմատ արժեք՝' : 'Selected Price:'}</span>
                     <span className="text-sm font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                       {selectedPriceAMD.toLocaleString()} AMD (֏)
                     </span>
                   </div>
-                  <div className="flex justify-between pt-0.5">
+                  <div className="flex flex-wrap justify-between items-center gap-2 pt-0.5">
                     <span className="text-slate-500">{appLang === 'hy' ? 'Կարգավիճակ՝' : 'Status:'}</span>
                     <span className="font-bold text-amber-800 px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-[11px]">
                       {appLang === 'hy' ? 'Սպասում է ադմինի հաստատմանը' : 'Pending Admin Review'}
@@ -614,9 +614,9 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                 {/* 1 week — 4,000 AMD, 2 weeks — 8,000 AMD, 1 month — 12,000 AMD, 3 months — 25,000 AMD */}
                 {/* ========================================================================= */}
                 <div className="space-y-2.5 pt-1">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-1">
                     <label className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-indigo-600" />
+                      <Calendar className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
                       <span>{appLang === 'hy' ? 'Ընտրեք գովազդի տևողությունը *' : 'Select Ad Duration & Plan *'}</span>
                     </label>
                     <span className="text-[11px] text-indigo-600 font-bold">
@@ -625,7 +625,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                   </div>
 
                   {/* 4 Interactive Duration Cards Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
                     {(Object.keys(AD_PRICING_PLANS) as AdDuration[]).map((durKey) => {
                       const plan = AD_PRICING_PLANS[durKey];
                       const isSelected = duration === durKey;
@@ -635,7 +635,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                           key={durKey}
                           type="button"
                           onClick={() => setDuration(durKey)}
-                          className={`relative p-3 rounded-2xl border text-left cursor-pointer transition-all duration-150 flex flex-col justify-between ${
+                          className={`relative p-2.5 sm:p-3 rounded-2xl border text-left cursor-pointer transition-all duration-150 flex flex-col justify-between min-w-0 ${
                             isSelected
                               ? 'bg-linear-to-b from-indigo-50 to-blue-50 border-indigo-600 ring-2 ring-indigo-500/20 shadow-sm'
                               : 'bg-white hover:bg-slate-50 border-slate-200/90 text-slate-700'
@@ -644,7 +644,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                           {/* Top badge if applicable */}
                           {plan.badgeEn && (
                             <span
-                              className={`absolute -top-2 right-2 px-1.5 py-0.2 rounded-md text-[9px] font-black uppercase tracking-wider ${
+                              className={`absolute -top-2 right-2 px-1.5 py-0.2 rounded-md text-[9px] font-black uppercase tracking-wider max-w-[calc(100%-0.75rem)] truncate ${
                                 isSelected
                                   ? 'bg-indigo-600 text-white shadow-2xs'
                                   : 'bg-amber-100 text-amber-900 border border-amber-200'
@@ -654,9 +654,9 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                             </span>
                           )}
 
-                          <div className="space-y-0.5">
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs font-bold text-slate-900">
+                          <div className="space-y-0.5 min-w-0">
+                            <div className="flex items-center justify-between gap-1">
+                              <span className="text-xs font-bold text-slate-900 break-words min-w-0">
                                 {appLang === 'hy' ? plan.labelHy : plan.labelEn}
                               </span>
                               {isSelected && (
@@ -672,7 +672,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
 
                           <div className="mt-2 pt-1.5 border-t border-slate-200/60">
                             <span
-                              className={`text-sm sm:text-base font-black ${
+                              className={`text-xs sm:text-base font-black break-words ${
                                 isSelected ? 'text-indigo-700' : 'text-slate-900'
                               }`}
                             >
@@ -686,20 +686,20 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
 
                   {/* Automatic Price Calculation Display Box */}
                   <div className="p-3.5 rounded-2xl bg-linear-to-r from-emerald-500/10 via-indigo-500/10 to-blue-500/10 border border-emerald-300/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-2xs shrink-0">
                         ֏
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-extrabold text-slate-900">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-xs font-extrabold text-slate-900 break-words">
                             {appLang === 'hy' ? 'Ընտրված սակագին՝ ' : 'Selected Duration: '}
                             <span className="text-indigo-700">
                               {appLang === 'hy' ? currentPlan.labelHy : currentPlan.labelEn}
                             </span>
                           </span>
                         </div>
-                        <span className="text-[11px] text-slate-500">
+                        <span className="text-[11px] text-slate-500 break-words block">
                           {appLang === 'hy'
                             ? 'Հաշվարկված գինը ներառում է ամբողջ ժամանակահատվածը (առանց թաքնված վճարների):'
                             : 'All-inclusive rate for the full duration. No setup or hidden fees.'}
@@ -783,9 +783,9 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
 
                 {/* Image / Logo Upload & Presets */}
                 <div className="space-y-2 pt-1 border-t border-slate-100">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-1">
                     <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                      <Upload className="w-3.5 h-3.5 text-slate-400" />
+                      <Upload className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                       <span>{appLang === 'hy' ? 'Լոգո կամ պատկեր (Image or Logo)' : 'Image or Logo'}</span>
                     </label>
                     <span className="text-[11px] text-slate-400">
@@ -808,7 +808,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                       )}
                     </div>
 
-                    <div className="flex-1 w-full space-y-2">
+                    <div className="flex-1 w-full min-w-0 space-y-2">
                       <div className="flex flex-wrap items-center gap-2">
                         {PRESET_LOGOS.map((preset) => (
                           <button
@@ -849,10 +849,10 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                 </div>
 
                 {/* Real-time Live Ad Preview Card */}
-                <div className="p-4 bg-slate-50/80 border border-slate-200/90 rounded-2xl space-y-2">
-                  <div className="flex items-center justify-between text-xs">
+                <div className="p-4 bg-slate-50/80 border border-slate-200/90 rounded-2xl space-y-2 min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-1 text-xs">
                     <span className="font-bold text-slate-700 flex items-center gap-1">
-                      <Eye className="w-3.5 h-3.5 text-indigo-600" />
+                      <Eye className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
                       <span>{appLang === 'hy' ? 'Իրական նախադիտում (Live Ad Preview)' : 'Live Ad Preview'}</span>
                     </span>
                     <span className="text-[11px] text-indigo-600 font-bold">
@@ -860,7 +860,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                     </span>
                   </div>
 
-                  <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-xs flex items-center gap-3">
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-xs flex flex-wrap sm:flex-nowrap items-center gap-3 min-w-0">
                     {imageUrl ? (
                       <img
                         src={imageUrl}
@@ -873,7 +873,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex flex-wrap items-center gap-1.5">
                         <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded bg-amber-100 text-amber-900">
                           {appLang === 'hy' ? 'Հովանավոր' : 'Sponsored'}
                         </span>
@@ -941,9 +941,9 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
             /* ========================================================================= */
             /* TAB 2: INQUIRIES & STATUS TRACKING                                         */
             /* ========================================================================= */
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
+            <div className="space-y-4 min-w-0">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="min-w-0 flex-1">
                   <h4 className="text-sm font-bold text-slate-800">
                     {appLang === 'hy' ? 'Բոլոր ներկայացված հայտերը' : 'Submitted Ad Requests'}
                   </h4>
@@ -961,7 +961,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                       onClose();
                       onOpenAdminPortal();
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-linear-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-extrabold text-xs active:scale-95 cursor-pointer transition-colors shadow-2xs flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-xl bg-linear-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-extrabold text-xs active:scale-95 cursor-pointer transition-colors shadow-2xs flex items-center gap-1.5 shrink-0"
                   >
                     <span>👑</span>
                     <span>{appLang === 'hy' ? 'Բացել ադմին վահանակը (Տեր)' : 'Open Admin Desk (Owner)'}</span>
@@ -990,7 +990,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                     return (
                       <div
                         key={inq.id}
-                        className={`p-4 rounded-2xl border transition-all ${
+                        className={`p-4 rounded-2xl border transition-all min-w-0 ${
                           isActive
                             ? 'bg-emerald-50/50 border-emerald-200 shadow-2xs'
                             : isApproved
@@ -1001,7 +1001,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                         }`}
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="flex items-start gap-3">
+                          <div className="flex items-start gap-3 min-w-0 flex-1">
                             {inq.imageUrl ? (
                               <img
                                 src={inq.imageUrl}
@@ -1014,14 +1014,14 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                               </div>
                             )}
 
-                            <div className="space-y-0.5">
+                            <div className="space-y-0.5 min-w-0 flex-1">
                               <div className="flex flex-wrap items-center gap-2">
-                                <h5 className="font-extrabold text-sm text-slate-900">
+                                <h5 className="font-extrabold text-sm text-slate-900 break-words">
                                   {inq.businessName}
                                 </h5>
-                                <span className="text-xs text-slate-400">• {inq.contactEmail}</span>
+                                <span className="text-xs text-slate-400 break-all sm:break-normal">• {inq.contactEmail}</span>
                               </div>
-                              <p className="text-xs font-semibold text-slate-800">{inq.headline}</p>
+                              <p className="text-xs font-semibold text-slate-800 break-words">{inq.headline}</p>
                               <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-500 pt-0.5">
                                 <span>{getPlacementTitle(inq.placement)}</span>
                                 <span>•</span>
@@ -1092,7 +1092,7 @@ export const AdRequestModal: React.FC<AdRequestModalProps> = ({
                         </div>
 
                         {inq.adminNotes && (
-                          <div className="mt-2.5 p-2 rounded-xl bg-white/70 border border-slate-200/80 text-[11px] text-slate-600">
+                          <div className="mt-2.5 p-2 rounded-xl bg-white/70 border border-slate-200/80 text-[11px] text-slate-600 break-words">
                             <span className="font-bold text-slate-700">
                               {appLang === 'hy' ? 'Ադմինի նշում՝ ' : 'Admin note: '}
                             </span>

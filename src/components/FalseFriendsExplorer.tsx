@@ -32,12 +32,12 @@ export const FalseFriendsExplorer: React.FC<FalseFriendsExplorerProps> = ({
   return (
     <div className="space-y-6">
       {/* Intro banner */}
-      <div className="bg-amber-50/80 border border-amber-200/90 rounded-2xl p-5 sm:p-6 shadow-xs">
+      <div className="bg-amber-50/80 border border-amber-200/90 rounded-2xl p-4 sm:p-6 shadow-xs">
         <div className="flex items-start gap-3">
           <div className="p-2.5 rounded-xl bg-amber-600 text-white shrink-0 shadow-2xs">
             <ShieldAlert className="w-5 h-5" />
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <h2 className="text-base sm:text-lg font-extrabold text-slate-900">
               {appLang === 'hy'
                 ? '«Կեղծ ընկերներ» և թակարդ բառեր'
@@ -55,13 +55,13 @@ export const FalseFriendsExplorer: React.FC<FalseFriendsExplorerProps> = ({
       {/* Main card comparison */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Words sidebar */}
-        <div className="lg:col-span-4 space-y-2">
+        <div className="lg:col-span-4 space-y-2 min-w-0">
           <div className="flex items-center justify-between px-1 text-xs font-bold text-slate-500">
             <span>{appLang === 'hy' ? 'Թակարդ բառեր' : 'False Friends'}</span>
             <span>{items.length} {appLang === 'hy' ? 'բառ' : 'words'}</span>
           </div>
 
-          <div className="space-y-1.5 max-h-[480px] overflow-y-auto pr-1">
+          <div className="space-y-1.5 max-h-[260px] lg:max-h-[480px] overflow-y-auto pr-1">
             {items.map((item) => {
               const isSelected = item.id === activeItem.id;
               return (
@@ -69,17 +69,17 @@ export const FalseFriendsExplorer: React.FC<FalseFriendsExplorerProps> = ({
                   key={item.id}
                   type="button"
                   onClick={() => setActiveTabWord(item.id)}
-                  className={`w-full text-left p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                  className={`w-full text-left p-3 sm:p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 min-w-0 ${
                     isSelected
                       ? 'bg-white border-indigo-500 shadow-sm ring-2 ring-indigo-500/20 text-slate-900'
                       : 'bg-white/80 hover:bg-white border-slate-200/90 hover:border-indigo-200 text-slate-600'
                   }`}
                 >
-                  <div>
-                    <div className="font-bold text-sm text-slate-900">{item.englishWord}</div>
-                    <div className="text-xs text-slate-500">≠ {item.looksLikeArmenianWord}</div>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-bold text-sm text-slate-900 break-words">{item.englishWord}</div>
+                    <div className="text-xs text-slate-500 break-words">≠ {item.looksLikeArmenianWord}</div>
                   </div>
-                  <ArrowRight className={`w-4 h-4 ${isSelected ? 'text-indigo-600' : 'text-slate-300'}`} />
+                  <ArrowRight className={`w-4 h-4 shrink-0 ${isSelected ? 'text-indigo-600' : 'text-slate-300'}`} />
                 </button>
               );
             })}
@@ -87,24 +87,24 @@ export const FalseFriendsExplorer: React.FC<FalseFriendsExplorerProps> = ({
         </div>
 
         {/* Detailed comparison card */}
-        <div className="lg:col-span-8 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="lg:col-span-8 bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-8 shadow-sm space-y-6 min-w-0">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2.5">
-                <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <div className="space-y-0.5 min-w-0">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight break-words">
                   {activeItem.englishWord}
                 </h3>
                 <AudioButton text={activeItem.englishWord} rate={speechSpeed} size="sm" />
               </div>
-              <p className="text-xs font-mono text-indigo-600 font-semibold">{activeItem.phonetic}</p>
+              <p className="text-xs font-mono text-indigo-600 font-semibold break-words">{activeItem.phonetic}</p>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="text-right">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <div className="text-left sm:text-right">
                 <span className="text-[11px] font-semibold text-slate-400 block">
                   {appLang === 'hy' ? 'Նման է հնչում՝' : 'Sounds like:'}
                 </span>
-                <span className="text-sm font-bold text-purple-900">
+                <span className="text-sm font-bold text-purple-900 break-words">
                   {activeItem.looksLikeArmenianWord}
                 </span>
               </div>

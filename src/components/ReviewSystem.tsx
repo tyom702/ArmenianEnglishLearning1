@@ -103,7 +103,7 @@ export const ReviewSystem: React.FC<ReviewSystemProps> = ({
   // If review pool is empty
   if (!reviewPool || reviewPool.length === 0) {
     return (
-      <div className="max-w-2xl mx-auto bg-white border border-slate-200/90 rounded-3xl p-8 sm:p-12 text-center space-y-5 shadow-sm">
+      <div className="max-w-2xl mx-auto bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-12 text-center space-y-5 shadow-sm">
         <div className="w-16 h-16 rounded-3xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
           <CheckCircle2 className="w-8 h-8" />
         </div>
@@ -150,12 +150,12 @@ export const ReviewSystem: React.FC<ReviewSystemProps> = ({
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header Info Banner */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-6 shadow-sm flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-sm flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
             <RotateCcw className="w-5 h-5" />
           </div>
-          <div>
+          <div className="min-w-0">
             <h2 className="text-base sm:text-lg font-black text-slate-900 leading-snug">
               {appLang === 'hy' ? 'Սխալների կրկնության համակարգ' : 'Personalized Spaced Review'}
             </h2>
@@ -173,21 +173,21 @@ export const ReviewSystem: React.FC<ReviewSystemProps> = ({
       </div>
 
       {/* Main Review Card */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-1">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm space-y-6 min-w-0">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="space-y-1 min-w-0 flex-1">
             <span className="text-[11px] font-extrabold uppercase tracking-wider text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full">
               {currentItem.type}
             </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight pt-1">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight pt-1 break-words">
               {currentItem.promptEn}
             </h3>
-            <p className="text-sm font-extrabold text-slate-600">
+            <p className="text-sm font-extrabold text-slate-600 break-words">
               «{currentItem.promptHy}»
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <AudioButton
               text={currentItem.promptEn || currentItem.answer}
               speed={speechSpeed}
@@ -205,7 +205,7 @@ export const ReviewSystem: React.FC<ReviewSystemProps> = ({
         </div>
 
         {/* Repetition Streak Indicator */}
-        <div className="flex items-center gap-2 p-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs font-bold text-slate-700">
+        <div className="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs font-bold text-slate-700">
           <span>{appLang === 'hy' ? 'Յուրացման աստիճան՝' : 'Mastery Progress:'}</span>
           <div className="flex items-center gap-1.5">
             <span
@@ -244,7 +244,7 @@ export const ReviewSystem: React.FC<ReviewSystemProps> = ({
                 type="button"
                 disabled={isChecked}
                 onClick={() => handleSelectOption(opt)}
-                className={`w-full p-4 rounded-2xl text-left font-bold text-sm border cursor-pointer transition-all flex items-center justify-between ${
+                className={`w-full p-3.5 sm:p-4 rounded-2xl text-left font-bold text-sm border cursor-pointer transition-all flex items-center justify-between gap-2 min-w-0 ${
                   isTarget
                     ? 'bg-emerald-50 border-emerald-400 text-emerald-900 shadow-xs'
                     : isSelected
@@ -252,7 +252,7 @@ export const ReviewSystem: React.FC<ReviewSystemProps> = ({
                     : 'bg-slate-50 hover:bg-slate-100 border-slate-200/90 text-slate-800'
                 }`}
               >
-                <span>{opt}</span>
+                <span className="min-w-0 break-words">{opt}</span>
                 {isTarget && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
               </button>
             );

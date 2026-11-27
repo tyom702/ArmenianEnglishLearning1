@@ -32,14 +32,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   masteredWordsCount,
 }) => {
   return (
-    <section className="relative overflow-hidden rounded-3xl bg-linear-to-b from-blue-50/80 via-white to-purple-50/40 border border-slate-200/90 shadow-sm p-6 sm:p-8 lg:p-12">
+    <section className="relative overflow-hidden rounded-3xl bg-linear-to-b from-blue-50/80 via-white to-purple-50/40 border border-slate-200/90 shadow-sm p-4 sm:p-8 lg:p-12">
       {/* Subtle decorative background blur orbs */}
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
         {/* Left Column: Text & CTAs */}
-        <div className="lg:col-span-7 space-y-6 text-left">
+        <div className="lg:col-span-7 min-w-0 space-y-5 sm:space-y-6 text-left">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/80 text-indigo-700 text-xs font-bold tracking-wide shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
@@ -109,12 +109,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           {/* Social Proof / Progress metric */}
-          <div className="flex items-center gap-6 pt-2 border-t border-slate-200/60 text-xs text-slate-500">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2 border-t border-slate-200/60 text-xs text-slate-500">
             <div>
               <span className="font-extrabold text-slate-900 text-sm block">100%</span>
               <span>{appLang === 'hy' ? 'Անվճար բովանդակություն' : 'Free Interactive Learning'}</span>
             </div>
-            <div className="w-px h-7 bg-slate-200" />
+            <div className="hidden sm:block w-px h-7 bg-slate-200" />
             <button
               type="button"
               onClick={onOpenDashboard || onStartLearning}
@@ -128,7 +128,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 {appLang === 'hy' ? 'Ավարտված թեմաներ 📊' : 'Completed Lessons 📊'}
               </span>
             </button>
-            <div className="w-px h-7 bg-slate-200" />
+            <div className="hidden sm:block w-px h-7 bg-slate-200" />
             <button
               type="button"
               onClick={onOpenDashboard || onStartLearning}
@@ -146,13 +146,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
 
         {/* Right Column: High Quality Educational Illustration & Floating Badges */}
-        <div className="lg:col-span-5 relative flex items-center justify-center">
+        <div className="lg:col-span-5 min-w-0 relative flex items-center justify-center">
           <div className="relative w-full max-w-md mx-auto">
             {/* Background Glow */}
             <div className="absolute inset-0 bg-linear-to-tr from-blue-300/30 to-purple-300/30 rounded-3xl blur-2xl transform rotate-3 scale-95" />
 
             {/* Illustration Frame */}
-            <div className="relative bg-white border border-slate-200/90 rounded-3xl p-3 sm:p-4 shadow-xl overflow-hidden">
+            <div className="relative bg-white border border-slate-200/90 rounded-3xl p-2.5 sm:p-4 shadow-xl overflow-hidden">
               <img
                 src={heroIllustration}
                 alt={appLang === 'hy' ? 'Անգլերենի ուսուցման նկարազարդում' : 'English learning illustration'}
@@ -162,26 +162,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               />
 
               {/* Floating interactive badge 1: Top Right */}
-              <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-xs border border-indigo-100 rounded-xl px-3 py-2 shadow-md flex items-center gap-2 text-xs">
-                <span className="flex h-2 w-2 relative">
+              <div className="absolute top-3.5 right-3.5 sm:top-6 sm:right-6 max-w-[calc(100%-1.75rem)] bg-white/95 backdrop-blur-xs border border-indigo-100 rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 shadow-md flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
+                <span className="flex h-2 w-2 relative shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                 </span>
-                <span className="font-bold text-slate-800">
+                <span className="font-bold text-slate-800 truncate">
                   {appLang === 'hy' ? 'A1 → C2 Ծրագիր' : 'A1 → C2 Program'}
                 </span>
               </div>
 
               {/* Floating interactive badge 2: Bottom Left */}
-              <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-xs border border-purple-100 rounded-xl px-3.5 py-2 shadow-md flex items-center gap-2.5 text-xs">
-                <div className="w-6 h-6 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+              <div className="absolute bottom-3.5 left-3.5 sm:bottom-6 sm:left-6 max-w-[calc(100%-1.75rem)] bg-white/95 backdrop-blur-xs border border-purple-100 rounded-xl px-2.5 py-1.5 sm:px-3.5 sm:py-2 shadow-md flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs">
+                <div className="w-6 h-6 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold shrink-0">
                   🇦🇲
                 </div>
-                <div>
-                  <div className="font-bold text-slate-900 leading-tight">
+                <div className="min-w-0">
+                  <div className="font-bold text-slate-900 leading-tight truncate">
                     {appLang === 'hy' ? 'Հայ-Անգլերեն' : 'Armenian-English'}
                   </div>
-                  <div className="text-[10px] text-slate-500">
+                  <div className="text-[10px] text-slate-500 truncate">
                     {appLang === 'hy' ? 'Ճշգրիտ համադրում' : 'Native Parallel'}
                   </div>
                 </div>

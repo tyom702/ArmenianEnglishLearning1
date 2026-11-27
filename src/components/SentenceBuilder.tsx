@@ -97,8 +97,8 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header and counter */}
-      <div className="flex items-center justify-between px-1">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
+        <div className="min-w-0">
           <h2 className="text-lg font-extrabold text-slate-900">
             {appLang === 'hy'
               ? 'Նախադասության կառուցիչ'
@@ -111,7 +111,7 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
           <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 font-semibold text-slate-700">
             {currentIndex + 1} / {puzzles.length}
           </span>
@@ -122,7 +122,7 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
       </div>
 
       {/* Main card */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-8 shadow-sm space-y-6 min-w-0">
         {/* Armenian Prompt Box */}
         <div className="p-4 bg-purple-50/70 border border-purple-200/80 rounded-xl space-y-1">
           <span className="text-[11px] font-bold text-purple-700 uppercase tracking-wider block">
@@ -135,7 +135,7 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
 
         {/* Selected Tokens (Constructed Sentence) Area */}
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <span className="text-xs font-bold text-slate-700">
               {appLang === 'hy' ? 'Ձեր կառուցած նախադասությունը՝' : 'Your Constructed Sentence:'}
             </span>
@@ -165,7 +165,7 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
                   type="button"
                   onClick={() => handleRemoveToken(token)}
                   disabled={isChecked}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer ${
+                  className={`px-3.5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer break-words max-w-full text-left ${
                     isChecked
                       ? isCorrect
                         ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
@@ -192,7 +192,7 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
                 type="button"
                 onClick={() => handleSelectToken(token)}
                 disabled={isChecked}
-                className="px-3.5 py-2 rounded-lg text-sm font-semibold bg-blue-50/80 hover:bg-blue-100 border border-blue-200/80 text-blue-950 shadow-xs cursor-pointer transition-transform active:scale-95"
+                className="px-3.5 py-2 rounded-lg text-sm font-semibold bg-blue-50/80 hover:bg-blue-100 border border-blue-200/80 text-blue-950 shadow-xs cursor-pointer transition-transform active:scale-95 break-words max-w-full text-left"
               >
                 {token.text}
               </button>
@@ -209,16 +209,16 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
                 : 'bg-purple-50 text-purple-950 border-purple-200'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 font-bold text-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 font-bold text-sm min-w-0">
                 {isCorrect ? (
                   <>
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                     <span>{appLang === 'hy' ? 'Գերազանց է, լիովին ճիշտ է:' : 'Excellent! Perfect sentence!'}</span>
                   </>
                 ) : (
                   <>
-                    <AlertCircle className="w-5 h-5 text-purple-700" />
+                    <AlertCircle className="w-5 h-5 text-purple-700 shrink-0" />
                     <span>{appLang === 'hy' ? 'Ոչ ամբողջությամբ ճիշտ:' : 'Not quite right yet.'}</span>
                   </>
                 )}
@@ -227,7 +227,7 @@ export const SentenceBuilder: React.FC<SentenceBuilderProps> = ({
             </div>
 
             {!isCorrect && (
-              <p className="font-semibold text-slate-900 pt-1">
+              <p className="font-semibold text-slate-900 pt-1 break-words">
                 {appLang === 'hy' ? 'Ճիշտ տարբերակն է՝ ' : 'Correct order: '}
                 <span className="underline font-bold text-indigo-700">{currentPuzzle.correctSentence}</span>
               </p>

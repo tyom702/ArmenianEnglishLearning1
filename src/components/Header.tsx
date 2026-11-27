@@ -112,14 +112,14 @@ export const Header: React.FC<HeaderProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-indigo-100/80 shadow-xs">
+    <header className="sticky top-0 z-40 w-full max-w-full bg-white/95 backdrop-blur-md border-b border-indigo-100/80 shadow-xs">
       {/* Top utility bar */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between border-b border-slate-100 text-xs text-slate-600">
-        <div className="flex items-center gap-2 sm:gap-2.5">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-2.5 flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 border-b border-slate-100 text-xs text-slate-600">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 min-w-0">
           <button
             type="button"
             onClick={() => setActiveTab('dashboard')}
-            className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-900 font-semibold border border-purple-200/80 shadow-xs cursor-pointer transition-colors"
+            className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-900 font-semibold border border-purple-200/80 shadow-xs cursor-pointer transition-colors"
             title={appLang === 'hy' ? 'Բացել ուսանողի վահանակը' : 'Open Student Dashboard'}
           >
             <Flame className="w-3.5 h-3.5 text-purple-600 fill-purple-500" />
@@ -129,7 +129,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('dashboard')}
-            className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold border border-amber-200/80 shadow-xs cursor-pointer transition-colors"
+            className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold border border-amber-200/80 shadow-xs cursor-pointer transition-colors"
             title={appLang === 'hy' ? 'Բացել ուսանողի վահանակը' : 'Open Student Dashboard'}
           >
             <Zap className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
@@ -140,10 +140,10 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onOpenMissions}
-              className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold border border-indigo-200/80 shadow-xs cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 md:py-0.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold border border-indigo-200/80 shadow-xs cursor-pointer transition-colors"
               title={appLang === 'hy' ? 'Օրվա առաքելություններ' : 'Daily Missions'}
             >
-              <Target className="w-3.5 h-3.5 text-indigo-600" />
+              <Target className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
               <span>{appLang === 'hy' ? `Առաքելություններ (${missionsCompletedCount}/4)` : `Missions (${missionsCompletedCount}/4)`}</span>
             </button>
           )}
@@ -152,38 +152,39 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('review')}
-              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold border border-rose-200/80 shadow-xs cursor-pointer transition-colors animate-pulse"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 md:py-0.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold border border-rose-200/80 shadow-xs cursor-pointer transition-colors animate-pulse"
               title={appLang === 'hy' ? 'Սխալների կրկնություն' : 'Spaced Review'}
             >
-              <RotateCcw className="w-3.5 h-3.5 text-rose-600" />
-              <span>{reviewPoolCount} {appLang === 'hy' ? 'կրկնության ենթակա' : 'to review'}</span>
+              <RotateCcw className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+              <span className="hidden md:inline">{reviewPoolCount} {appLang === 'hy' ? 'կրկնության ենթակա' : 'to review'}</span>
+              <span className="md:hidden">{reviewPoolCount}</span>
             </button>
           )}
         </div>
 
         {/* Controls: User Account, Audio Speed, UI Language Toggle, Log Out */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 min-w-0">
           {currentUser ? (
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
               <button
                 type="button"
                 onClick={() => setActiveTab('dashboard')}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border cursor-pointer transition-all ${
+                className={`inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold border cursor-pointer transition-all min-w-0 ${
                   activeTab === 'dashboard'
                     ? 'bg-indigo-600 text-white border-indigo-600 shadow-2xs'
                     : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border-indigo-200/80'
                 }`}
                 title={appLang === 'hy' ? 'Բացել իմ վահանակը' : 'Open My Dashboard'}
               >
-                <span className="text-sm">{currentUser.avatar || '🎓'}</span>
-                <span className="max-w-[80px] sm:max-w-[120px] truncate">{currentUser.name}</span>
+                <span className="text-sm shrink-0">{currentUser.avatar || '🎓'}</span>
+                <span className="max-w-[72px] sm:max-w-[120px] truncate">{currentUser.name}</span>
               </button>
 
               {onLogout && (
                 <button
                   type="button"
                   onClick={onLogout}
-                  className="p-1.5 rounded-lg bg-slate-50 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200/80 cursor-pointer transition-colors"
+                  className="hidden md:inline-flex p-1.5 rounded-lg bg-slate-50 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200/80 cursor-pointer transition-colors"
                   title={appLang === 'hy' ? 'Դուրս գալ համակարգից' : 'Log out'}
                 >
                   <LogOut className="w-3.5 h-3.5" />
@@ -205,7 +206,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          <div className="flex items-center gap-1 bg-slate-50 p-0.5 rounded-lg border border-slate-200/80">
+          <div className="hidden md:flex items-center gap-1 bg-slate-50 p-0.5 rounded-lg border border-slate-200/80">
             <SlidersHorizontal className="w-3 h-3 text-slate-400 ml-1.5" />
             <button
               type="button"
@@ -220,7 +221,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setAppLang(appLang === 'hy' ? 'en' : 'hy')}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 font-bold border border-blue-200/80 cursor-pointer transition-all active:scale-95"
+            className="hidden md:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 font-bold border border-blue-200/80 cursor-pointer transition-all active:scale-95"
             title="Switch Language / Փոխել լեզուն"
           >
             <Globe className="w-3.5 h-3.5 text-blue-600" />
@@ -232,12 +233,12 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => onOpenAdRequestModal()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 active:scale-95 text-amber-950 font-extrabold border border-amber-200/90 cursor-pointer transition-all text-xs shadow-2xs hover:shadow-xs"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 active:scale-95 text-amber-950 font-extrabold border border-amber-200/90 cursor-pointer transition-all text-xs shadow-2xs hover:shadow-xs"
               title={appLang === 'hy' ? 'Գովազդ մեր մոտ' : 'Advertise with us'}
             >
-              <Megaphone className="w-3.5 h-3.5 text-amber-600" />
+              <Megaphone className="w-3.5 h-3.5 text-amber-600 shrink-0" />
               <span className="hidden sm:inline">{appLang === 'hy' ? 'Գովազդ մեր մոտ' : 'Advertise with us'}</span>
-              <span className="sm:hidden">{appLang === 'hy' ? 'Գովազդ մեր մոտ' : 'Ads'}</span>
+              <span className="sm:hidden">{appLang === 'hy' ? 'Գովազդ' : 'Ads'}</span>
             </button>
           )}
 
@@ -246,11 +247,11 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onOpenAdminPortal}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-linear-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-extrabold border border-purple-500/40 text-xs cursor-pointer shadow-xs transition-all active:scale-95"
+              className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg bg-linear-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-extrabold border border-purple-500/40 text-xs cursor-pointer shadow-xs transition-all active:scale-95"
               title={appLang === 'hy' ? 'Կայքի տիրոջ ադմին վահանակ' : 'Owner Super Admin Desk'}
             >
               <span>👑</span>
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-300 shrink-0" />
               <span className="hidden md:inline">{appLang === 'hy' ? 'Ադմին (Տեր)' : 'Admin Desk'}</span>
             </button>
           )}
@@ -258,7 +259,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Main brand navigation bar */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 sm:gap-3 min-w-0">
         {/* Brand identity */}
         <AppLogo
           size="md"
@@ -267,7 +268,7 @@ export const Header: React.FC<HeaderProps> = ({
         />
 
         {/* Tabs (Hidden on mobile; handled natively by MobileBottomNav) */}
-        <nav className="hidden md:flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+        <nav className="hidden md:flex flex-wrap items-center gap-1 min-w-0">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -275,7 +276,7 @@ export const Header: React.FC<HeaderProps> = ({
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-semibold whitespace-nowrap transition-all duration-150 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-xl text-xs lg:text-sm font-semibold transition-all duration-150 cursor-pointer ${
                   isActive
                     ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-sm shadow-indigo-500/25'
                     : 'text-slate-600 hover:text-indigo-900 hover:bg-indigo-50/70'

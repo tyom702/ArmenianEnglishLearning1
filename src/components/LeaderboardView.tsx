@@ -41,18 +41,18 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       {/* Hero Level & Rank Card */}
-      <div className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+      <div className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-4 sm:p-8 shadow-xl relative overflow-hidden">
         {/* Glow circles */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-3xl sm:text-4xl shadow-inner">
+          <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+            <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-3xl sm:text-4xl shadow-inner shrink-0">
               {levelCalc.currentLevel.icon}
             </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
+            <div className="space-y-1 min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider bg-amber-400 text-slate-950">
                   Level {levelCalc.currentLevel.levelNumber}
                 </span>
@@ -60,19 +60,19 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
                   {levelCalc.currentLevel.cefrEquivalent}
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight break-words">
                 {appLang === 'hy'
                   ? levelCalc.currentLevel.titleHy
                   : levelCalc.currentLevel.titleEn}
               </h2>
-              <p className="text-xs text-indigo-200 font-medium">
+              <p className="text-xs text-indigo-200 font-medium truncate">
                 {currentUser.name} • {currentUserXP} Total XP
               </p>
             </div>
           </div>
 
           {/* XP Progress to Next Level */}
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 min-w-[240px]">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 w-full md:w-auto md:min-w-[240px]">
             <div className="flex items-center justify-between text-xs font-bold text-white mb-2">
               <span>{appLang === 'hy' ? 'Հաջորդ մակարդակին' : 'Next Level'}</span>
               <span className="text-amber-300 font-extrabold">{levelCalc.progressPercent}%</span>
@@ -97,13 +97,13 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
       </div>
 
       {/* Leaderboard Podium & Standings */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
               <Trophy className="w-5 h-5" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h3 className="font-extrabold text-base sm:text-lg text-slate-900 leading-tight">
                 {appLang === 'hy' ? 'Հայաստանի սովորողների առաջատարներ' : 'Learner Leaderboard'}
               </h3>
@@ -143,67 +143,67 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
 
         {/* Top 3 Podium */}
         {topThree.length >= 3 && (
-          <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-4 pb-2 items-end">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-4 pt-4 pb-2 items-end">
             {/* 2nd Place */}
-            <div className="text-center space-y-2 p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+            <div className="text-center space-y-1.5 sm:space-y-2 p-2 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/80 min-w-0">
               <div className="relative inline-block">
-                <span className="text-3xl">{topThree[1].avatar}</span>
-                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-slate-300 text-slate-800 text-[11px] font-black flex items-center justify-center border-2 border-white">
+                <span className="text-2xl sm:text-3xl">{topThree[1].avatar}</span>
+                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-slate-300 text-slate-800 text-[10px] sm:text-[11px] font-black flex items-center justify-center border-2 border-white">
                   2
                 </span>
               </div>
-              <div>
-                <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
+              <div className="min-w-0">
+                <h4 className="font-extrabold text-[11px] sm:text-sm text-slate-900 truncate">
                   {topThree[1].name}
                 </h4>
-                <p className="text-[11px] text-indigo-600 font-extrabold">
+                <p className="text-[10px] sm:text-[11px] text-indigo-600 font-extrabold truncate">
                   {topThree[1].userXP} XP
                 </p>
               </div>
-              <span className="inline-block text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200/60">
+              <span className="inline-block text-[9px] sm:text-[10px] font-bold text-slate-500 bg-white px-1.5 sm:px-2 py-0.5 rounded-md border border-slate-200/60">
                 Lvl {topThree[1].levelNumber}
               </span>
             </div>
 
             {/* 1st Place Champion */}
-            <div className="text-center space-y-2 p-4 sm:p-5 rounded-2xl bg-amber-50/80 border-2 border-amber-300 shadow-md -translate-y-2">
+            <div className="text-center space-y-1.5 sm:space-y-2 p-2.5 sm:p-5 rounded-2xl bg-amber-50/80 border-2 border-amber-300 shadow-md -translate-y-1 sm:-translate-y-2 min-w-0">
               <div className="relative inline-block">
-                <Crown className="w-5 h-5 text-amber-500 mx-auto mb-1 animate-bounce" />
-                <span className="text-4xl">{topThree[0].avatar}</span>
-                <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-amber-400 text-slate-950 text-xs font-black flex items-center justify-center border-2 border-white shadow-xs">
+                <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 mx-auto mb-1 animate-bounce" />
+                <span className="text-3xl sm:text-4xl">{topThree[0].avatar}</span>
+                <span className="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-amber-400 text-slate-950 text-[10px] sm:text-xs font-black flex items-center justify-center border-2 border-white shadow-xs">
                   1
                 </span>
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="font-black text-xs sm:text-base text-slate-900 truncate">
                   {topThree[0].name}
                 </h4>
-                <p className="text-xs sm:text-sm text-amber-700 font-black">
+                <p className="text-[11px] sm:text-sm text-amber-700 font-black truncate">
                   {topThree[0].userXP} XP
                 </p>
               </div>
-              <span className="inline-block text-[10px] font-extrabold text-amber-900 bg-amber-200/80 px-2.5 py-0.5 rounded-full">
+              <span className="inline-block text-[9px] sm:text-[10px] font-extrabold text-amber-900 bg-amber-200/80 px-1.5 sm:px-2.5 py-0.5 rounded-full">
                 👑 Lvl {topThree[0].levelNumber}
               </span>
             </div>
 
             {/* 3rd Place */}
-            <div className="text-center space-y-2 p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+            <div className="text-center space-y-1.5 sm:space-y-2 p-2 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/80 min-w-0">
               <div className="relative inline-block">
-                <span className="text-3xl">{topThree[2].avatar}</span>
-                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-700 text-white text-[11px] font-black flex items-center justify-center border-2 border-white">
+                <span className="text-2xl sm:text-3xl">{topThree[2].avatar}</span>
+                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-700 text-white text-[10px] sm:text-[11px] font-black flex items-center justify-center border-2 border-white">
                   3
                 </span>
               </div>
-              <div>
-                <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
+              <div className="min-w-0">
+                <h4 className="font-extrabold text-[11px] sm:text-sm text-slate-900 truncate">
                   {topThree[2].name}
                 </h4>
-                <p className="text-[11px] text-indigo-600 font-extrabold">
+                <p className="text-[10px] sm:text-[11px] text-indigo-600 font-extrabold truncate">
                   {topThree[2].userXP} XP
                 </p>
               </div>
-              <span className="inline-block text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200/60">
+              <span className="inline-block text-[9px] sm:text-[10px] font-bold text-slate-500 bg-white px-1.5 sm:px-2 py-0.5 rounded-md border border-slate-200/60">
                 Lvl {topThree[2].levelNumber}
               </span>
             </div>
@@ -218,13 +218,13 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
             return (
               <div
                 key={user.id}
-                className={`p-3.5 sm:p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all flex items-center justify-between gap-2 sm:gap-3 min-w-0 ${
                   isUser
                     ? 'bg-indigo-50/80 border-indigo-300 shadow-xs'
                     : 'bg-white border-slate-200/80 hover:bg-slate-50'
                 }`}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
                   <span
                     className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-black shrink-0 ${
                       user.rank === 1
@@ -239,33 +239,33 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
                     {user.rank}
                   </span>
 
-                  <span className="text-2xl shrink-0">{user.avatar}</span>
+                  <span className="text-xl sm:text-2xl shrink-0">{user.avatar}</span>
 
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-xs sm:text-sm text-slate-900">
+                  <div className="space-y-0.5 min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                      <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
                         {user.name}
                       </h4>
                       {isUser && (
-                        <span className="px-2 py-0.5 rounded-md bg-indigo-600 text-white text-[10px] font-black">
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-600 text-white text-[10px] font-black shrink-0">
                           {appLang === 'hy' ? 'Դուք' : 'You'}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-500 font-medium">
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
                       {appLang === 'hy' ? user.levelTitleHy : user.levelTitleEn} • Level {user.levelNumber}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 shrink-0 text-right">
+                <div className="flex items-center gap-3 sm:gap-4 shrink-0 text-right">
                   <div className="hidden sm:flex items-center gap-1 text-xs font-bold text-amber-700">
                     <Flame className="w-3.5 h-3.5 fill-amber-500" />
                     <span>{user.streakCount} օր</span>
                   </div>
 
                   <div className="text-right">
-                    <span className="font-black text-sm text-indigo-700">
+                    <span className="font-black text-xs sm:text-sm text-indigo-700">
                       {user.userXP} XP
                     </span>
                   </div>
@@ -277,7 +277,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
       </div>
 
       {/* All Level Tiers Roadmap */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-8 shadow-sm space-y-4">
         <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-2">
           <Award className="w-4 h-4 text-indigo-600" />
           <span>{appLang === 'hy' ? 'Մակարդակների աստիճանակարգ' : 'Level Progression Roadmap'}</span>

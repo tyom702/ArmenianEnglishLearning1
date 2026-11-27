@@ -243,15 +243,15 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
                         : 'bg-white hover:bg-slate-50 border-slate-200/90 text-slate-800'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{item.icon}</span>
-                      <div>
-                        <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <span className="text-2xl shrink-0">{item.icon}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1.5">
                           <h4 className="font-extrabold text-sm text-slate-900">
                             {appLang === 'hy' ? item.titleHy : item.titleEn}
                           </h4>
                           {item.badge && (
-                            <span className="px-1.5 py-0.2 rounded-md bg-indigo-100 text-indigo-800 font-extrabold text-[10px]">
+                            <span className="px-1.5 py-0.2 rounded-md bg-indigo-100 text-indigo-800 font-extrabold text-[10px] shrink-0">
                               {item.badge}
                             </span>
                           )}
@@ -357,9 +357,9 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
       {/* ========================================================================= */}
       <nav
         aria-label="Mobile Navigation"
-        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 shadow-2xl px-2 py-1.5 pb-[max(0.45rem,env(safe-area-inset-bottom))]"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 w-full max-w-full bg-white/95 backdrop-blur-xl border-t border-slate-200/90 shadow-2xl px-1.5 py-1.5 pb-[max(0.45rem,env(safe-area-inset-bottom))]"
       >
-        <div className="grid grid-cols-5 gap-1 items-center max-w-md mx-auto">
+        <div className="grid grid-cols-5 gap-0.5 sm:gap-1 items-center max-w-md mx-auto">
           {mainTabs.map((tab) => {
             const isActive = activeTab === tab.id;
             const Icon = tab.icon;
@@ -369,7 +369,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
                 key={tab.id}
                 type="button"
                 onClick={() => handleSelectTab(tab.id)}
-                className={`relative flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all duration-200 cursor-pointer select-none active:scale-92 ${
+                className={`relative min-w-0 flex flex-col items-center justify-center py-1 px-0.5 sm:px-1 rounded-2xl transition-all duration-200 cursor-pointer select-none active:scale-92 ${
                   isActive
                     ? 'text-indigo-600 font-black'
                     : 'text-slate-500 hover:text-slate-800 font-semibold'
@@ -387,7 +387,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
                   {/* Micro badge */}
                   {tab.badge && !isActive && (
                     <span
-                      className={`absolute -top-1.5 -right-3 text-[9px] font-black px-1 rounded-full border border-white shadow-2xs ${
+                      className={`absolute -top-1.5 -right-2.5 text-[8px] sm:text-[9px] font-black px-1 rounded-full border border-white shadow-2xs max-w-[44px] truncate ${
                         tab.badgeColor || 'bg-slate-200 text-slate-700'
                       }`}
                     >
@@ -397,7 +397,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
                 </div>
 
                 {/* Tab Label */}
-                <span className={`text-[10px] mt-1 tracking-tight leading-none ${isActive ? 'font-black text-indigo-600' : 'font-bold'}`}>
+                <span className={`text-[9px] sm:text-[10px] mt-1 tracking-tight leading-none truncate max-w-full ${isActive ? 'font-black text-indigo-600' : 'font-bold'}`}>
                   {appLang === 'hy' ? tab.labelHy : tab.labelEn}
                 </span>
 

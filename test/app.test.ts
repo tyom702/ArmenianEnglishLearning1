@@ -21,6 +21,10 @@ import {
 } from '../src/utils/gamification';
 import { VOCABULARY_DATA } from '../src/data/vocabularyData';
 import { LISTENING_EXERCISES } from '../src/data/listeningData';
+import {
+  isChoiceListeningExercise,
+  validateListeningAnswer,
+} from '../src/utils/listeningValidation';
 
 describe('HayEnglish Security & Authorization Tests', () => {
   it('enforces that only OFFICIAL_OWNER_EMAIL receives super_admin role', () => {
@@ -200,6 +204,28 @@ describe('HayEnglish Vocabulary & Listening Data Quality Tests', () => {
       assert.ok(ex.phonetic);
       assert.ok(ex.focusSound);
       assert.ok(ex.tipHy);
+    });
+  });
+
+  it('ensures every non-choice listening exercise (including l2, l5, l6, l8) renders and validates written answers', () => {
+    LISTENING_EXERCISES.forEach((ex) => {
+      const isChoice = isChoiceListeningExercise(ex);
+      if (isChoice) {
+        assert.ok(ex.options && ex.options.length > 0, `${ex.id} choice exercise must have options`);
+        assert.strictEqual(validateListeningAnswer(ex, '', ex.missingWord || null), true);
+        assert.strictEqual(validateListeningAnswer(ex, '', 'wrong-option'), false);
+      } else {
+        // Must require and accept a typed written answer (e.g. l1, l2, l4, l5, l6, l7, l8)
+        const expected = ex.missingWord || ex.phraseEn;
+        assert.strictEqual(validateListeningAnswer(ex, expected, null), true, `${ex.id} exact answer should pass`);
+        assert.strictEqual(
+          validateListeningAnswer(ex, expected.replace(/[.,!?]/g, '').toLowerCase(), null),
+          true,
+          `${ex.id} case-insensitive answer without trailing punctuation should pass`
+        );
+        assert.strictEqual(validateListeningAnswer(ex, '   ', null), false, `${ex.id} blank answer must fail`);
+        assert.strictEqual(validateListeningAnswer(ex, 'incorrect answer', null), false, `${ex.id} wrong answer must fail`);
+      }
     });
   });
 });

@@ -74,7 +74,7 @@ export const DialoguePractice: React.FC<DialoguePracticeProps> = ({
       {/* Dialogue Selector and Control Bar */}
       <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Dialogue Scenarios Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+        <div className="flex flex-wrap items-center gap-2">
           {dialogues.map((dlg) => (
             <button
               key={dlg.id}
@@ -83,7 +83,7 @@ export const DialoguePractice: React.FC<DialoguePracticeProps> = ({
                 handleStopConversation();
                 setSelectedDiagId(dlg.id);
               }}
-              className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all ${
                 selectedDiagId === dlg.id
                   ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/25'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
@@ -95,7 +95,7 @@ export const DialoguePractice: React.FC<DialoguePracticeProps> = ({
         </div>
 
         {/* Global Controls */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <button
             type="button"
             onClick={() => setShowArmenian(!showArmenian)}
@@ -129,35 +129,35 @@ export const DialoguePractice: React.FC<DialoguePracticeProps> = ({
       </div>
 
       {/* Context banner */}
-      <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-100/90 text-xs text-blue-950 flex items-center justify-between">
-        <div>
+      <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-100/90 text-xs text-blue-950 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="min-w-0">
           <strong className="text-slate-900 font-bold">{appLang === 'hy' ? 'Իրավիճակ՝ ' : 'Context: '}</strong>
-          <span className="font-medium text-slate-700">{appLang === 'hy' ? activeDialogue.contextHy : activeDialogue.contextEn}</span>
+          <span className="font-medium text-slate-700 break-words">{appLang === 'hy' ? activeDialogue.contextHy : activeDialogue.contextEn}</span>
         </div>
-        <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white text-indigo-700 border border-indigo-200 shrink-0 ml-3 shadow-2xs">
+        <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white text-indigo-700 border border-indigo-200 shrink-0 self-start sm:self-center shadow-2xs">
           {activeDialogue.level}
         </span>
       </div>
 
       {/* Chat Dialogue Stream */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4 max-w-3xl mx-auto">
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-3.5 sm:p-6 shadow-sm space-y-4 max-w-3xl mx-auto">
         {activeDialogue.lines.map((line, idx) => {
           const isCurrentActive = activeSpeakingLine === idx;
 
           return (
             <div
               key={idx}
-              className={`flex items-start gap-3 p-4 rounded-2xl border transition-all duration-200 ${
+              className={`flex items-start gap-2.5 sm:gap-3 p-3 sm:p-4 rounded-2xl border transition-all duration-200 min-w-0 ${
                 isCurrentActive
                   ? 'bg-indigo-50/90 border-indigo-300 ring-2 ring-indigo-400/30'
                   : 'bg-slate-50/70 hover:bg-white border-slate-200/80'
               }`}
             >
-              <div className="text-2xl select-none shrink-0">{line.avatar}</div>
+              <div className="text-xl sm:text-2xl select-none shrink-0">{line.avatar}</div>
 
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+              <div className="flex-1 min-w-0 space-y-1">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 min-w-0">
                     <span className="text-xs font-bold text-slate-900">{line.speaker}</span>
                     <span className="text-[11px] text-slate-400">
                       ({appLang === 'hy' ? line.speakerRoleHy : line.speakerRoleEn})
@@ -166,12 +166,12 @@ export const DialoguePractice: React.FC<DialoguePracticeProps> = ({
                   <AudioButton text={line.english} rate={speechSpeed} size="sm" />
                 </div>
 
-                <p className="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
+                <p className="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed break-words">
                   {line.english}
                 </p>
 
                 {showArmenian && (
-                  <p className="text-xs sm:text-sm text-slate-600 pt-0.5 font-normal">
+                  <p className="text-xs sm:text-sm text-slate-600 pt-0.5 font-normal break-words">
                     {line.armenian}
                   </p>
                 )}

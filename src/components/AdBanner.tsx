@@ -34,24 +34,24 @@ export const AdBanner: React.FC<AdBannerProps> = ({
     // Subtle invitation placeholder with official owner contact email
     return (
       <div
-        className={`bg-slate-50/70 border border-dashed border-slate-300/80 rounded-2xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all ${className}`}
+        className={`bg-slate-50/70 border border-dashed border-slate-300/80 rounded-2xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all min-w-0 max-w-full ${className}`}
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
           <span className="p-1.5 rounded-xl bg-amber-100 text-amber-900 shrink-0">
             <Megaphone className="w-4 h-4" />
           </span>
-          <div className="space-y-0.5">
-            <p className="font-bold text-slate-800">
+          <div className="space-y-0.5 min-w-0 flex-1">
+            <p className="font-bold text-slate-800 break-words">
               {appLang === 'hy'
                 ? 'Ցանկանո՞ւմ եք գովազդել ձեր բիզնեսը կամ կրթական ծրագիրը այստեղ:'
                 : 'Want to promote your business or educational service in this slot?'}
             </p>
-            <p className="text-[11px] text-slate-600">
+            <p className="text-[11px] text-slate-600 break-words">
               <span>{appLang === 'hy' ? 'Ուղարկեք ձեր գովազդային հարցումը՝ ' : 'Send your advertisement request to: '}</span>
               <a
                 href="mailto:kurghinyanartyom2@gmail.com?subject=Ad%20Placement%20Request%20-%20HayEnglish"
                 onClick={(e) => e.stopPropagation()}
-                className="font-extrabold text-indigo-700 hover:underline"
+                className="font-extrabold text-indigo-700 hover:underline break-all sm:break-normal"
               >
                 kurghinyanartyom2@gmail.com
               </a>
@@ -83,10 +83,10 @@ export const AdBanner: React.FC<AdBannerProps> = ({
     return (
       <div
         onClick={handleAdClick}
-        className={`group relative overflow-hidden bg-linear-to-r from-amber-500/10 via-indigo-500/10 to-sky-500/10 border border-amber-300/50 hover:border-indigo-400/80 rounded-2xl p-3.5 sm:p-4 shadow-xs hover:shadow-md transition-all cursor-pointer ${className}`}
+        className={`group relative overflow-hidden bg-linear-to-r from-amber-500/10 via-indigo-500/10 to-sky-500/10 border border-amber-300/50 hover:border-indigo-400/80 rounded-2xl p-3.5 sm:p-4 shadow-xs hover:shadow-md transition-all cursor-pointer max-w-full ${className}`}
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-start sm:items-center gap-3.5">
+          <div className="flex items-start sm:items-center gap-3.5 min-w-0 flex-1">
             {ad.imageUrl ? (
               <img
                 src={ad.imageUrl}
@@ -99,21 +99,21 @@ export const AdBanner: React.FC<AdBannerProps> = ({
               </div>
             )}
 
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900 border border-amber-500/30 text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1">
+            <div className="space-y-0.5 min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900 border border-amber-500/30 text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1 shrink-0">
                   <Sparkles className="w-2.5 h-2.5 text-amber-600" />
                   <span>{appLang === 'hy' ? 'Հովանավորված' : 'Sponsored'}</span>
                 </span>
-                <span className="text-xs font-bold text-slate-600 truncate max-w-[200px]">
+                <span className="text-xs font-bold text-slate-600 truncate max-w-full sm:max-w-[240px]">
                   {ad.businessName}
                 </span>
               </div>
 
-              <h4 className="text-sm font-extrabold text-slate-900 group-hover:text-indigo-900 transition-colors line-clamp-1">
+              <h4 className="text-sm font-extrabold text-slate-900 group-hover:text-indigo-900 transition-colors line-clamp-1 break-words">
                 {ad.headline}
               </h4>
-              <p className="text-xs text-slate-600 line-clamp-1 sm:line-clamp-2">
+              <p className="text-xs text-slate-600 line-clamp-1 sm:line-clamp-2 break-words">
                 {ad.adText}
               </p>
             </div>
@@ -135,19 +135,19 @@ export const AdBanner: React.FC<AdBannerProps> = ({
     return (
       <div
         onClick={handleAdClick}
-        className={`group bg-linear-to-br from-indigo-900 via-indigo-800 to-blue-900 text-white rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-xl transition-all cursor-pointer relative overflow-hidden ${className}`}
+        className={`group bg-linear-to-br from-indigo-900 via-indigo-800 to-blue-900 text-white rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-xl transition-all cursor-pointer relative overflow-hidden min-w-0 max-w-full ${className}`}
       >
         <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-2xl -mr-12 -mt-12 pointer-events-none" />
 
-        <div className="relative z-10 space-y-3.5">
-          <div className="flex items-center justify-between">
+        <div className="relative z-10 space-y-3.5 min-w-0">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="px-2.5 py-0.5 rounded-full bg-white/15 border border-white/20 text-[10px] font-black uppercase tracking-wider text-amber-300">
               {appLang === 'hy' ? 'Գործընկերոջ առաջարկ' : 'Featured Partner'}
             </span>
-            <span className="text-[11px] text-indigo-200 font-semibold">{ad.businessName}</span>
+            <span className="text-[11px] text-indigo-200 font-semibold break-words min-w-0">{ad.businessName}</span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             {ad.imageUrl && (
               <img
                 src={ad.imageUrl}
@@ -155,16 +155,16 @@ export const AdBanner: React.FC<AdBannerProps> = ({
                 className="w-12 h-12 rounded-xl object-cover border border-white/30 shrink-0"
               />
             )}
-            <h4 className="font-extrabold text-base text-white leading-tight">
+            <h4 className="font-extrabold text-base text-white leading-tight min-w-0 break-words">
               {ad.headline}
             </h4>
           </div>
 
-          <p className="text-xs text-indigo-100/90 leading-relaxed">
+          <p className="text-xs text-indigo-100/90 leading-relaxed break-words">
             {ad.adText}
           </p>
 
-          <div className="pt-1 flex items-center justify-between">
+          <div className="pt-1 flex flex-wrap items-center justify-between gap-2">
             <button
               type="button"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs shadow-xs transition-colors"
@@ -184,10 +184,10 @@ export const AdBanner: React.FC<AdBannerProps> = ({
     return (
       <div
         onClick={handleAdClick}
-        className={`group bg-white border border-slate-200/90 hover:border-indigo-300 rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all cursor-pointer ${className}`}
+        className={`group bg-white border border-slate-200/90 hover:border-indigo-300 rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all cursor-pointer min-w-0 max-w-full ${className}`}
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-start gap-3.5">
+          <div className="flex items-start gap-3.5 min-w-0 flex-1">
             {ad.imageUrl ? (
               <img
                 src={ad.imageUrl}
@@ -200,17 +200,17 @@ export const AdBanner: React.FC<AdBannerProps> = ({
               </div>
             )}
 
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
+            <div className="space-y-1 min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
                   {appLang === 'hy' ? 'Կրթական գովազդ' : 'Educational Partner'}
                 </span>
-                <span className="text-xs font-bold text-slate-500">• {ad.businessName}</span>
+                <span className="text-xs font-bold text-slate-500 break-words">• {ad.businessName}</span>
               </div>
-              <h4 className="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-indigo-900 transition-colors">
+              <h4 className="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-indigo-900 transition-colors break-words">
                 {ad.headline}
               </h4>
-              <p className="text-xs text-slate-600 line-clamp-2 max-w-2xl">
+              <p className="text-xs text-slate-600 line-clamp-2 max-w-2xl break-words">
                 {ad.adText}
               </p>
             </div>
@@ -231,16 +231,16 @@ export const AdBanner: React.FC<AdBannerProps> = ({
   return (
     <div
       onClick={handleAdClick}
-      className={`group bg-linear-to-r from-indigo-50 via-purple-50 to-amber-50 border border-indigo-200/80 rounded-2xl p-4 text-left shadow-xs hover:shadow-md transition-all cursor-pointer ${className}`}
+      className={`group bg-linear-to-r from-indigo-50 via-purple-50 to-amber-50 border border-indigo-200/80 rounded-2xl p-4 text-left shadow-xs hover:shadow-md transition-all cursor-pointer min-w-0 max-w-full ${className}`}
     >
-      <div className="flex items-center justify-between gap-2 mb-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
         <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-600 text-white">
           {appLang === 'hy' ? 'Հովանավորչական բոնուս' : 'Sponsor Reward'}
         </span>
-        <span className="text-xs font-semibold text-slate-500">{ad.businessName}</span>
+        <span className="text-xs font-semibold text-slate-500 break-words min-w-0">{ad.businessName}</span>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 min-w-0">
         {ad.imageUrl && (
           <img
             src={ad.imageUrl}
@@ -248,11 +248,11 @@ export const AdBanner: React.FC<AdBannerProps> = ({
             className="w-12 h-12 rounded-xl object-cover shrink-0 border border-slate-200"
           />
         )}
-        <div className="space-y-0.5">
-          <h5 className="font-bold text-sm text-slate-900 group-hover:text-indigo-900">
+        <div className="space-y-0.5 min-w-0 flex-1">
+          <h5 className="font-bold text-sm text-slate-900 group-hover:text-indigo-900 break-words">
             {ad.headline}
           </h5>
-          <p className="text-xs text-slate-600 line-clamp-1">{ad.adText}</p>
+          <p className="text-xs text-slate-600 line-clamp-1 break-words">{ad.adText}</p>
         </div>
       </div>
 

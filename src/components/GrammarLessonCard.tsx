@@ -198,7 +198,7 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
   return (
     <div
       id={`grammar-card-${lesson.id}`}
-      className={`bg-white border rounded-3xl p-6 sm:p-7 shadow-sm transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+      className={`bg-white border rounded-3xl p-4 sm:p-7 shadow-sm transition-all duration-300 relative overflow-hidden flex flex-col justify-between min-w-0 ${
         isCompleted
           ? 'border-emerald-300 ring-2 ring-emerald-400/20 shadow-emerald-500/5'
           : 'border-slate-200/90 hover:border-slate-300 hover:shadow-md'
@@ -212,8 +212,8 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
       {/* 1. CARD HEADER: Level, Category, Time, Completion                         */}
       {/* ========================================================================= */}
       <div className="relative z-10 space-y-3 pb-4 border-b border-slate-100">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className={`px-2.5 py-0.5 rounded-lg text-xs font-black uppercase tracking-wider ${lvl.bg} ${lvl.text} border ${lvl.border}`}
             >
@@ -269,7 +269,7 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
             </span>
 
             {/* Formula mode switcher: Positive / Negative / Question */}
-            <div className="flex items-center gap-1 bg-indigo-900/80 p-0.5 rounded-lg border border-indigo-700/60 text-[10px] font-bold">
+            <div className="flex flex-wrap items-center gap-1 bg-indigo-900/80 p-0.5 rounded-lg border border-indigo-700/60 text-[10px] font-bold max-w-full">
               <button
                 type="button"
                 onClick={() => setFormulaMode('affirmative')}
@@ -316,14 +316,14 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
           </div>
 
           {/* Algebraic Grammar Formula Display */}
-          <div className="font-mono text-sm sm:text-base font-bold text-amber-300 bg-black/40 px-3.5 py-2.5 rounded-xl border border-indigo-700/50 shadow-inner break-words leading-relaxed">
+          <div className="font-mono text-xs sm:text-base font-bold text-amber-300 bg-black/40 px-3.5 py-2.5 rounded-xl border border-indigo-700/50 shadow-inner break-words leading-relaxed">
             {getActiveFormulaStructure()}
           </div>
 
           {/* Formula Breakdown in Armenian */}
-          <div className="text-xs text-indigo-200/90 flex items-start gap-2 pt-0.5">
-            <span className="font-black text-amber-400">🇦🇲</span>
-            <span className="leading-relaxed">
+          <div className="text-xs text-indigo-200/90 flex items-start gap-2 pt-0.5 min-w-0">
+            <span className="font-black text-amber-400 shrink-0">🇦🇲</span>
+            <span className="leading-relaxed min-w-0 break-words">
               <strong className="text-white font-bold">
                 {appLang === 'hy' ? 'Բանաձևի բացատրություն՝ ' : 'Structure: '}
               </strong>
@@ -333,7 +333,7 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
 
           {/* Formula Real-World Demonstration */}
           {formula.exampleFormula && (
-            <div className="text-[11px] text-indigo-300/80 bg-indigo-950/60 p-2 rounded-lg border border-indigo-800/50 font-mono">
+            <div className="text-[11px] text-indigo-300/80 bg-indigo-950/60 p-2 rounded-lg border border-indigo-800/50 font-mono break-words">
               <span className="text-amber-300 font-bold">Օրինակ՝ </span>
               <span>{formula.exampleFormula}</span>
             </div>
@@ -402,8 +402,8 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
                 key={idx}
                 className="bg-slate-50 hover:bg-indigo-50/40 border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 transition-colors space-y-1.5"
               >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug min-w-0 break-words">
                     {eg.english}
                   </span>
                   <AudioButton text={eg.english} rate={speechSpeed} size="sm" />
@@ -442,8 +442,8 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
         {/* 5. PRACTICE SECTION (In-Card Interactive Practice)                        */}
         {/* ========================================================================= */}
         {showPractice && (
-          <div className="mt-4 p-5 bg-gradient-to-br from-indigo-50/90 via-purple-50/50 to-blue-50/80 border-2 border-indigo-200 rounded-2xl space-y-4 animate-in fade-in-50 duration-200 shadow-sm">
-            <div className="flex items-center justify-between pb-2 border-b border-indigo-200/70">
+          <div className="mt-4 p-4 sm:p-5 bg-gradient-to-br from-indigo-50/90 via-purple-50/50 to-blue-50/80 border-2 border-indigo-200 rounded-2xl space-y-4 animate-in fade-in-50 duration-200 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-indigo-200/70">
               <span className="text-xs font-black uppercase tracking-wider text-indigo-800 flex items-center gap-1.5">
                 <HelpCircle className="w-4 h-4 text-indigo-600" />
                 <span>{appLang === 'hy' ? 'Քերականական վարժություն' : 'Practice Challenge'}</span>
@@ -515,7 +515,7 @@ export const GrammarLessonCard: React.FC<GrammarLessonCardProps> = ({
                     : 'bg-purple-50 text-purple-950 border border-purple-300'
                 }`}
               >
-                <div className="font-extrabold flex items-center justify-between">
+                <div className="font-extrabold flex flex-wrap items-center justify-between gap-2">
                   <span className="flex items-center gap-1.5">
                     {isCorrect ? (
                       <>

@@ -113,8 +113,8 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
       </div>
 
       {/* Top Controls: View Mode & Counter */}
-      <div className="flex items-center justify-between text-xs text-slate-600 px-1">
-        <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 px-1">
+        <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200/80 max-w-full">
           <button
             type="button"
             onClick={() => handleModeChange('full')}
@@ -167,7 +167,7 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
       <div
         id={`flashcard-${word.id}`}
         onClick={handleFlip}
-        className={`bg-white border rounded-3xl p-6 sm:p-8 shadow-sm transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+        className={`bg-white border rounded-3xl p-4 sm:p-8 shadow-sm transition-all duration-300 relative overflow-hidden flex flex-col justify-between min-w-0 ${
           displayMode === 'flip' ? 'cursor-pointer hover:border-indigo-400 hover:shadow-md' : 'hover:border-slate-300'
         } ${isMastered ? 'border-emerald-300 ring-2 ring-emerald-400/20 shadow-emerald-500/5' : 'border-slate-200/90'}`}
       >
@@ -178,8 +178,8 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
         {/* ---------------------------------------------------------------------- */}
         {/* CARD HEADER: Part of speech, Category, Audio controls & Master button  */}
         {/* ---------------------------------------------------------------------- */}
-        <div className="relative z-10 flex items-center justify-between pb-4 border-b border-slate-100">
-          <div className="flex items-center gap-2">
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-100">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-indigo-50 text-indigo-700 border border-indigo-200/70">
               {word.partOfSpeech}
             </span>
@@ -188,7 +188,7 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Quick pronunciation audio buttons: Normal & Slow */}
             <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-200/80">
               <AudioButton text={word.english} rate={speechSpeed} size="sm" />
@@ -234,8 +234,8 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
                   <span>{appLang === 'hy' ? 'Անգլերեն բառ' : 'English Word'}</span>
                 </div>
 
-                <div className="flex items-center justify-center gap-3">
-                  <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+                <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+                  <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight break-words max-w-full">
                     {word.english}
                   </h2>
                   <AudioButton text={word.english} rate={speechSpeed} size="md" />
@@ -243,10 +243,10 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
 
                 {/* Pronunciation: IPA + Armenian Phonetic Transliteration */}
                 <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-                  <span className="font-mono text-sm sm:text-base font-bold text-indigo-700 bg-indigo-50/90 px-3 py-1 rounded-xl border border-indigo-200/80 shadow-2xs">
+                  <span className="font-mono text-sm sm:text-base font-bold text-indigo-700 bg-indigo-50/90 px-3 py-1 rounded-xl border border-indigo-200/80 shadow-2xs break-words max-w-full">
                     {word.phonetic}
                   </span>
-                  <span className="text-xs sm:text-sm font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-xl border border-slate-200 shadow-2xs">
+                  <span className="text-xs sm:text-sm font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-xl border border-slate-200 shadow-2xs break-words max-w-full">
                     {appLang === 'hy' ? 'Հնչում է՝ ' : 'Sounds like: '}
                     <span className="text-purple-950 font-black">{word.armenianPhonetic}</span>
                   </span>
@@ -254,11 +254,11 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
               </div>
 
               {/* 3. ARMENIAN MEANING */}
-              <div className="bg-linear-to-r from-blue-50/80 via-indigo-50/50 to-blue-50/80 p-5 rounded-2xl border border-indigo-200/80 text-center space-y-1 shadow-2xs">
+              <div className="bg-linear-to-r from-blue-50/80 via-indigo-50/50 to-blue-50/80 p-4 sm:p-5 rounded-2xl border border-indigo-200/80 text-center space-y-1 shadow-2xs">
                 <span className="text-[11px] font-black uppercase tracking-wider text-indigo-600 block">
                   {appLang === 'hy' ? 'Հայերեն իմաստը / թարգմանությունը' : 'Armenian Meaning / Translation'}
                 </span>
-                <p className="text-2xl sm:text-3xl font-extrabold text-indigo-950 tracking-tight">
+                <p className="text-xl sm:text-3xl font-extrabold text-indigo-950 tracking-tight break-words">
                   {word.armenian}
                 </p>
               </div>
@@ -311,23 +311,23 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
                     {appLang === 'hy' ? 'Առջևի կողմ (Անգլերեն & Արտասանություն)' : 'Front Side (English & Pronunciation)'}
                   </span>
 
-                  <h2 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-6xl font-black text-slate-900 tracking-tight break-words max-w-full px-1">
                     {word.english}
                   </h2>
 
                   <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-                    <span className="font-mono text-base font-bold text-indigo-700 bg-indigo-50 px-3.5 py-1.5 rounded-xl border border-indigo-200/80">
+                    <span className="font-mono text-sm sm:text-base font-bold text-indigo-700 bg-indigo-50 px-3.5 py-1.5 rounded-xl border border-indigo-200/80 break-words max-w-full">
                       {word.phonetic}
                     </span>
-                    <span className="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+                    <span className="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 break-words max-w-full">
                       {word.armenianPhonetic}
                     </span>
                     <AudioButton text={word.english} rate={speechSpeed} size="sm" />
                   </div>
 
                   <div className="pt-6">
-                    <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-200/80 shadow-2xs hover:bg-indigo-100 transition-colors">
-                      <RotateCcw className="w-4 h-4" />
+                    <div className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-2xl bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-200/80 shadow-2xs hover:bg-indigo-100 transition-colors max-w-full">
+                      <RotateCcw className="w-4 h-4 shrink-0" />
                       <span>{appLang === 'hy' ? 'Սեղմեք քարտը՝ հայերեն իմաստը և օրինակը տեսնելու համար' : 'Click to reveal Armenian meaning & example'}</span>
                     </div>
                   </div>
@@ -336,10 +336,10 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
                 /* BACK: Armenian Meaning + Example Sentence */
                 <div className="space-y-5 text-left animate-in fade-in-50 duration-200 py-3">
                   <div className="text-center pb-3 border-b border-slate-100">
-                    <span className="text-xs font-bold uppercase text-slate-400 block mb-1">
+                    <span className="text-xs font-bold uppercase text-slate-400 block mb-1 break-words">
                       {word.english} • {word.phonetic}
                     </span>
-                    <h3 className="text-3xl sm:text-4xl font-extrabold text-indigo-700">
+                    <h3 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 break-words">
                       {word.armenian}
                     </h3>
                   </div>
@@ -401,40 +401,40 @@ export const VocabularyFlashcard: React.FC<VocabularyFlashcardProps> = ({
       {/* ======================================================================== */}
       {/* NAVIGATION CONTROLS: Previous / Master / Next                            */}
       {/* ======================================================================== */}
-      <div className="flex items-center justify-between gap-3 pt-1">
+      <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-between gap-2 sm:gap-3 pt-1">
         <button
           type="button"
           onClick={onPrev}
-          className="flex-1 py-3 px-4 bg-white border border-slate-200/90 hover:bg-slate-50 active:bg-slate-100 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-98"
+          className="sm:flex-1 sm:order-1 py-3 px-3 sm:px-4 bg-white border border-slate-200/90 hover:bg-slate-50 active:bg-slate-100 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-98 min-w-0"
         >
-          <ChevronLeft className="w-4 h-4" />
-          <span>{appLang === 'hy' ? 'Նախորդ բառը' : 'Previous Word'}</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => onToggleMastered(word.id)}
-          className={`py-3 px-5 rounded-2xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-1.5 cursor-pointer transition-all shadow-2xs active:scale-98 ${
-            isMastered
-              ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/20'
-              : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-500/20'
-          }`}
-        >
-          <CheckCircle2 className="w-4 h-4" />
-          <span>
-            {isMastered
-              ? (appLang === 'hy' ? 'Յուրացված է ✓' : 'Learned ✓')
-              : (appLang === 'hy' ? 'Սովորել (+10 XP)' : 'Mark Learned (+10 XP)')}
-          </span>
+          <ChevronLeft className="w-4 h-4 shrink-0" />
+          <span className="truncate">{appLang === 'hy' ? 'Նախորդ բառը' : 'Previous Word'}</span>
         </button>
 
         <button
           type="button"
           onClick={onNext}
-          className="flex-1 py-3 px-4 bg-white border border-slate-200/90 hover:bg-slate-50 active:bg-slate-100 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-98"
+          className="sm:flex-1 sm:order-3 py-3 px-3 sm:px-4 bg-white border border-slate-200/90 hover:bg-slate-50 active:bg-slate-100 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-98 min-w-0"
         >
-          <span>{appLang === 'hy' ? 'Հաջորդ բառը' : 'Next Word'}</span>
-          <ChevronRight className="w-4 h-4" />
+          <span className="truncate">{appLang === 'hy' ? 'Հաջորդ բառը' : 'Next Word'}</span>
+          <ChevronRight className="w-4 h-4 shrink-0" />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onToggleMastered(word.id)}
+          className={`col-span-2 sm:col-span-1 sm:order-2 py-3 px-4 sm:px-5 rounded-2xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-1.5 cursor-pointer transition-all shadow-2xs active:scale-98 ${
+            isMastered
+              ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/20'
+              : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-500/20'
+          }`}
+        >
+          <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <span>
+            {isMastered
+              ? (appLang === 'hy' ? 'Յուրացված է ✓' : 'Learned ✓')
+              : (appLang === 'hy' ? 'Սովորել (+10 XP)' : 'Mark Learned (+10 XP)')}
+          </span>
         </button>
       </div>
     </div>

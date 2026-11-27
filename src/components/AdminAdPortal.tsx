@@ -350,18 +350,18 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
 
       {/* Admin Panel Modal Container */}
       <div
-        className="relative z-10 bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-5xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in-50 zoom-in-95 duration-200 cursor-default"
+        className="relative z-10 bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-5xl w-full min-w-0 max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in-50 zoom-in-95 duration-200 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
-        <div className="p-4 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white">
-          <div className="flex items-center gap-3">
+        <div className="p-4 sm:p-6 border-b border-slate-100 flex items-center justify-between gap-3 bg-slate-900 text-white">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-indigo-500 text-white flex items-center justify-center shadow-md shrink-0">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg sm:text-xl font-black tracking-tight">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-base sm:text-xl font-black tracking-tight break-words">
                   {appLang === 'hy' ? 'Ադմինիստրատորի գովազդային վահանակ' : 'Admin Ad Desk & Pricing Review'}
                 </h3>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black uppercase">
@@ -386,7 +386,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
               e.stopPropagation();
               onClose();
             }}
-            className="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-95 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer transition-all shadow-2xs z-30"
+            className="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-95 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer transition-all shadow-2xs z-30 shrink-0"
             aria-label={appLang === 'hy' ? 'Փակել' : 'Close'}
             title={appLang === 'hy' ? 'Փակել' : 'Close'}
           >
@@ -424,7 +424,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                   : `This administrative system is restricted SOLELY to the official website owner (${OFFICIAL_OWNER_EMAIL}). Unauthorized access has been rejected by the server.`}
               </p>
               {serverAuthError && (
-                <p className="text-[11px] text-rose-500 font-mono bg-rose-50 p-2 rounded-xl border border-rose-200">
+                <p className="text-[11px] text-rose-500 font-mono bg-rose-50 p-2 rounded-xl border border-rose-200 break-words">
                   {serverAuthError}
                 </p>
               )}
@@ -476,7 +476,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1.5 px-4 sm:px-6 pt-3 pb-2 border-b border-slate-100 overflow-x-auto scrollbar-none">
+        <div className="flex flex-wrap items-center gap-1.5 px-4 sm:px-6 pt-3 pb-2 border-b border-slate-100">
           {[
             { id: 'all', labelHy: 'Բոլորը', labelEn: 'All', count: totalCount },
             { id: 'pending_review', labelHy: 'Ուսումնասիրման ենթակա', labelEn: 'Pending Review', count: pendingCount },
@@ -488,7 +488,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
               key={tab.id}
               type="button"
               onClick={() => setFilterStatus(tab.id as 'all' | AdStatus)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer transition-all active:scale-95 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-all active:scale-95 ${
                 filterStatus === tab.id
                   ? 'bg-indigo-600 text-white shadow-2xs'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
@@ -532,24 +532,24 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                       : 'bg-slate-50 border-slate-200 opacity-80'
                   }`}
                 >
-                  <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+                  <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 min-w-0">
                     {/* Left: Ad Details */}
-                    <div className="flex items-start gap-4">
+                    <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 min-w-0 flex-1">
                       {ad.imageUrl ? (
                         <img
                           src={ad.imageUrl}
                           alt={ad.businessName}
-                          className="w-16 h-16 rounded-2xl object-cover border border-slate-200 shrink-0 shadow-2xs"
+                          className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover border border-slate-200 shrink-0 shadow-2xs"
                         />
                       ) : (
-                        <div className="w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-700 font-black text-2xl flex items-center justify-center shrink-0">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-indigo-100 text-indigo-700 font-black text-2xl flex items-center justify-center shrink-0">
                           {ad.businessName.charAt(0)}
                         </div>
                       )}
 
-                      <div className="space-y-1">
+                      <div className="space-y-1 min-w-0 flex-1 w-full">
                         <div className="flex flex-wrap items-center gap-2">
-                          <h4 className="font-extrabold text-base text-slate-900">
+                          <h4 className="font-extrabold text-base text-slate-900 break-words">
                             {ad.businessName}
                           </h4>
 
@@ -576,12 +576,12 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                           )}
                         </div>
 
-                        <p className="text-xs font-bold text-slate-800">{ad.headline}</p>
-                        <p className="text-xs text-slate-600 line-clamp-2 max-w-2xl">{ad.adText}</p>
+                        <p className="text-xs font-bold text-slate-800 break-words">{ad.headline}</p>
+                        <p className="text-xs text-slate-600 line-clamp-2 max-w-2xl break-words">{ad.adText}</p>
 
-                        <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] text-slate-500 font-medium">
-                          <span>📧 {ad.contactEmail}</span>
-                          {ad.contactPhone && <span>📞 {ad.contactPhone}</span>}
+                        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-1 text-[11px] text-slate-500 font-medium">
+                          <span className="break-all sm:break-normal">📧 {ad.contactEmail}</span>
+                          {ad.contactPhone && <span className="break-words">📞 {ad.contactPhone}</span>}
                           <span>🎯 {ad.placement}</span>
                           <span className="font-semibold text-slate-700">
                             ⏳ {appLang === 'hy' ? standardPlan.labelHy : standardPlan.labelEn}
@@ -602,8 +602,8 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                     </div>
 
                     {/* Right: Pricing & Controls */}
-                    <div className="flex flex-col sm:items-end gap-2 shrink-0">
-                      <div className="text-right">
+                    <div className="flex flex-col items-start lg:items-end gap-2 shrink-0 w-full lg:w-auto">
+                      <div className="text-left lg:text-right">
                         <p className="text-xs text-slate-400 font-medium">
                           {appLang === 'hy' ? 'Սահմանված արժեք' : 'Ad Price'}
                         </p>
@@ -678,10 +678,10 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                   {/* Inline Pricing & Approval Editor */}
                   {isEditing && (
                     <div className="mt-4 pt-4 border-t border-slate-200 bg-indigo-50/60 p-4 rounded-2xl space-y-3 animate-in fade-in-50">
-                      <div className="flex items-center justify-between">
-                        <h5 className="font-extrabold text-xs text-indigo-900 flex items-center gap-1.5">
-                          <DollarSign className="w-4 h-4 text-indigo-600" />
-                          <span>{appLang === 'hy' ? 'Սահմանել գովազդի արժեքը և հաստատել' : 'Set Ad Placement Price & Approve'}</span>
+                      <div className="flex items-center justify-between gap-2">
+                        <h5 className="font-extrabold text-xs text-indigo-900 flex items-center gap-1.5 min-w-0">
+                          <DollarSign className="w-4 h-4 text-indigo-600 shrink-0" />
+                          <span className="break-words">{appLang === 'hy' ? 'Սահմանել գովազդի արժեքը և հաստատել' : 'Set Ad Placement Price & Approve'}</span>
                         </h5>
                         <button
                           type="button"
@@ -754,7 +754,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                         })}
                       </div>
 
-                      <div className="flex items-center gap-2 pt-1">
+                      <div className="flex flex-wrap items-center gap-2 pt-1">
                         <button
                           type="button"
                           onClick={() => handleApproveWithPrice(ad.id)}
@@ -777,10 +777,10 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                   {/* Inline Rejection Dialog (Replaces blocked window.prompt) */}
                   {isRejecting && (
                     <div className="mt-4 pt-4 border-t border-rose-200 bg-rose-50/60 p-4 rounded-2xl space-y-3 animate-in fade-in-50">
-                      <div className="flex items-center justify-between">
-                        <h5 className="font-extrabold text-xs text-rose-900 flex items-center gap-1.5">
-                          <AlertCircle className="w-4 h-4 text-rose-600" />
-                          <span>{appLang === 'hy' ? 'Մերժել գովազդի հարցումը' : 'Reject Ad Request'}</span>
+                      <div className="flex items-center justify-between gap-2">
+                        <h5 className="font-extrabold text-xs text-rose-900 flex items-center gap-1.5 min-w-0">
+                          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                          <span className="break-words">{appLang === 'hy' ? 'Մերժել գովազդի հարցումը' : 'Reject Ad Request'}</span>
                         </h5>
                         <button
                           type="button"
@@ -804,7 +804,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                         />
                       </div>
 
-                      <div className="flex items-center gap-2 pt-1">
+                      <div className="flex flex-wrap items-center gap-2 pt-1">
                         <button
                           type="button"
                           onClick={() => handleConfirmReject(ad.id)}
@@ -826,12 +826,12 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
                   {/* Inline Delete Dialog (Replaces blocked window.confirm) */}
                   {isDeleting && (
                     <div className="mt-4 pt-4 border-t border-rose-200 bg-rose-50/80 p-4 rounded-2xl space-y-2.5 animate-in fade-in-50">
-                      <p className="text-xs font-bold text-rose-900">
+                      <p className="text-xs font-bold text-rose-900 break-words">
                         {appLang === 'hy'
                           ? 'Իսկապե՞ս ցանկանում եք ջնջել այս գովազդի հարցումը:'
                           : 'Are you sure you want to permanently delete this ad request?'}
                       </p>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <button
                           type="button"
                           onClick={() => handleConfirmDelete(ad.id)}
@@ -858,7 +858,7 @@ export const AdminAdPortal: React.FC<AdminAdPortalProps> = ({
         )}
 
         {/* Modal Footer */}
-        <div className="p-3 sm:px-6 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-xs text-slate-500">
+        <div className="p-3 sm:px-6 border-t border-slate-100 bg-slate-50 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
           <span>{appLang === 'hy' ? 'Ադմինիստրատորի ինտերֆեյս' : 'Private Admin Console'}</span>
           <button
             type="button"

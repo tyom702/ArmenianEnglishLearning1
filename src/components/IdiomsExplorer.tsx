@@ -17,11 +17,11 @@ export const IdiomsExplorer: React.FC<IdiomsExplorerProps> = ({
   return (
     <div className="space-y-6">
       {/* Intro */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-sm flex items-start gap-4">
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
         <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
           <Sparkles className="w-5 h-5" />
         </div>
-        <div>
+        <div className="min-w-0">
           <h2 className="text-base sm:text-lg font-extrabold text-slate-900">
             {appLang === 'hy'
               ? 'Անգլերեն իդիոմներ և հայկական համարժեքներ'
@@ -40,16 +40,16 @@ export const IdiomsExplorer: React.FC<IdiomsExplorerProps> = ({
         {idioms.map((item) => (
           <div
             key={item.id}
-            className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-xs hover:border-indigo-300 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+            className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 shadow-xs hover:border-indigo-300 hover:shadow-md transition-all flex flex-col justify-between space-y-4 min-w-0"
           >
-            <div className="space-y-3">
+            <div className="space-y-3 min-w-0">
               {/* Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-extrabold text-slate-900">{item.englishIdiom}</h3>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2 min-w-0">
+                  <h3 className="text-base sm:text-lg font-extrabold text-slate-900 break-words">{item.englishIdiom}</h3>
                   <AudioButton text={item.englishIdiom} rate={speechSpeed} size="sm" />
                 </div>
-                <span className="text-[11px] font-medium text-slate-400">
+                <span className="text-[11px] font-medium text-slate-400 break-words">
                   {item.literalTranslationHy}
                 </span>
               </div>
